@@ -1,0 +1,9 @@
+{
+    "mssql": {
+        "user": "duykha0511",
+        "password": "duykha2000",
+        "server": "localhost", 
+        "database": "DBONLINE_EXAM",
+        "trustServerCertificate": true
+    } 
+}

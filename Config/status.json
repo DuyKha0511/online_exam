@@ -1,0 +1,26 @@
+{
+    "Access": {
+        "Status": "Access",
+        "Code": 200
+    },
+    "Success": {
+        "Status": "Success",
+        "Code": 100
+    },
+    "Error": {
+        "Status": "Error Handle",
+        "Code": 101
+    },
+    "Unauthorized": {
+        "Status": "Unauthorized",
+        "Code": 401
+    },
+    "Unauthenticated": {
+        "Status": "Unauthenticated",
+        "Code": 500
+    },
+    "Forbidden": {
+        "Status": "Forbidden/Access Denied",
+        "Code": 403
+    }
+}

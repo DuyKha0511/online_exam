@@ -1,0 +1,46 @@
+GET http://localhost:8888/api/users/
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Mzc3NzI1MTAsImV4cCI6MTYzNzc3MjU0MH0.pN5hKT_xITh0ifwcVsXM2T12t3Py_471EY5IMSr6Z0k
+
+
+###
+POST http://localhost:8889/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin1",
+    "password": "admin1"
+}
+
+###
+POST http://localhost:8889/api/auth/refreshToken
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NzcyNDcyfQ.nXBYZHB2O0S8EkIDMgi3Yn-5qH9sa2td8umuEIAkXGU"
+}
+
+###
+POST http://localhost:8889/api/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NzcyNDcyfQ.nXBYZHB2O0S8EkIDMgi3Yn-5qH9sa2td8umuEIAkXGU"
+}
+
+###
+POST http://localhost:8889/api/auth/signup
+Content-Type: application/json
+
+{
+    "username": "pbl6",
+    "password": "pbl6",
+    "email": "phanduykha2000@gmail.com"
+}
+
+
+###
+GET http://localhost:8889/api/auth/verify?token=123456
+
+###
+POST http://localhost:8890/api/classes/
+Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Mzc3NzI1MTAsImV4cCI6MTYzNzc3MjU0MH0.pN5hKT_xITh0ifwcVsXM2T12t3Py_471EY5IMSr6Z0k
