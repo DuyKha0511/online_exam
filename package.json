@@ -4,7 +4,10 @@
   "description": "Testing",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "heroku-postbuild": "npm run build",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./app.js https://online-exampbl6.herokuapp.com/"
   },
   "author": "",
   "license": "ISC",
