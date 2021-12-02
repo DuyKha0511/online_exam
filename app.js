@@ -24,6 +24,7 @@ app.use(function(req, res, next) {
 
 // const user = require('./Controllers/User.controller');
 app.use('/api/questions', require('./Controllers/question.controller'));
+app.use('/api/libraries', require('./Controllers/library.controller'));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
