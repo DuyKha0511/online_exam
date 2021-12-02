@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "Testing",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "heroku-postbuild": "npm run build",
     "start": "node server.js",
