@@ -24,7 +24,7 @@ router.post('/login', (req, res) => {
 
     const username = req.body.username;
     const password = req.body.password;
-    console.log(username, password);
+    console.log(process.env.ACCESS_TOKEN_SECRET);
     authHandle.login(username, password).then(function(user) {
         if (user.recordsets[0].length) {
             // const id = user.recordset[0].username;
