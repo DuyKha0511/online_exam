@@ -6,12 +6,12 @@
     "node": "12.18.3",
     "npm": "6.14.6"
   },
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "heroku-postbuild": "npm run build",
-    "start": "node server.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./server.js https://online-exampbl6.herokuapp.com/"
+    "dev": "nodemon ./app.js https://online-exampbl6.herokuapp.com/"
   },
   "author": "",
   "license": "ISC",
