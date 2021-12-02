@@ -1,7 +1,7 @@
 const express = require('express'),
   app = express(),
   bodyParser = require("body-parser"),
-  port = process.env.PORT || 8889;
+  port = process.env.PORT || 8891;
 const path = require('path');
 const http = require('http').createServer(app);
 const dotenv = require('dotenv');
@@ -11,7 +11,6 @@ dotenv.config();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname,'./public')));
 app.use(express.json());
-
 
 //enable cors
 app.use(function(req, res, next) {
@@ -24,7 +23,7 @@ app.use(function(req, res, next) {
 
 
 // const user = require('./Controllers/User.controller');
-app.use('/api/auth', require('./Controllers/auth.controller'));
+app.use('/api/questions', require('./Controllers/question.controller'));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));

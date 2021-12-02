@@ -40,7 +40,3 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8889/api/auth/verify?token=123456
-
-###
-POST http://localhost:8890/api/classes/
-Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Mzc3NzI1MTAsImV4cCI6MTYzNzc3MjU0MH0.pN5hKT_xITh0ifwcVsXM2T12t3Py_471EY5IMSr6Z0k
