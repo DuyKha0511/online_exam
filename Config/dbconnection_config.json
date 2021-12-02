@@ -2,7 +2,7 @@
     "mssql": {
         "user": "duykha0511",
         "password": "duykha2000",
-        "server": "localhost", 
+        "server": "DESKTOP-TCRTE0S", 
         "database": "DBONLINE_EXAM",
         "trustServerCertificate": true
     } 
