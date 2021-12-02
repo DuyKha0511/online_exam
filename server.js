@@ -8,6 +8,8 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+app.use(express.static(path.join(__dirname,'./public')))
+
 app.use(bodyParser.json());
 
 //enable cors
