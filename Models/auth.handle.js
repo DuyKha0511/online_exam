@@ -17,7 +17,12 @@ function ExcuteSQL(query) {
 
 module.exports = {
     login: function(username, password) {
-        return ExcuteSQL(`select * from tb_User where Username = '${username}' and Password = '${password}'`);
+        return ExcuteSQL(`
+            select U.*, R.* from tb_User as U
+            join tb_RoleOfUser as RU on U.UserID = RU.UserID
+            join tb_Role as R on R.RoleID = RU.RoleID
+            where U.Username='${username}' and U.Password = '${password}'
+        `);
     },
     signup: function(username, password, email) {
         return ExcuteSQL(`
