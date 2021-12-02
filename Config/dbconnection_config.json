@@ -1,9 +1,9 @@
 {
     "mssql": {
-        "user": "duykha0511",
-        "password": "duykha2000",
-        "server": "DESKTOP-TCRTE0S", 
-        "database": "DBONLINE_EXAM",
+        "user": "duykha1105_SQLLogin_1",
+        "password": "96qlco9u5f",
+        "server": "OnlxamPbl6.mssql.somee.com", 
+        "database": "OnlxamPbl6",
         "trustServerCertificate": true
     } 
 }
