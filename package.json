@@ -1,7 +1,11 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "Testing",
+  "description": "Testing",  
+  "engines": {
+    "node": "12.18.3",
+    "npm": "6.14.6"
+  },
   "main": "server.js",
   "scripts": {
     "heroku-postbuild": "npm run build",
