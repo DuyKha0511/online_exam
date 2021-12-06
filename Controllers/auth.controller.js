@@ -33,7 +33,7 @@ router.post('/login', (req, res) => {
             });
             const refreshToken = jwt.sign({username}, process.env.REFRESH_TOKEN_SECRET);
             refreshTokens.push(refreshToken);
-            res.json({accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
+            res.json({status: status.Access, accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
         }
         else {
             res.json({status: status.Unauthenticated, message: "Incorrect Username or Password!"});
