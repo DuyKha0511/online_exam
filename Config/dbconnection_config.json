@@ -1,9 +1,9 @@
 {
     "mssql": {
-        "user": "duykha1105_SQLLogin_1",
-        "password": "96qlco9u5f",
-        "server": "OnlxamPbl6.mssql.somee.com", 
-        "database": "OnlxamPbl6",
+        "user": "Cathng11_SQLLogin_1",
+        "password": "tq483jkcdx",
+        "server": "DolphinExam.mssql.somee.com", 
+        "database": "DolphinExam",
         "trustServerCertificate": true
     } 
 }
