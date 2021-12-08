@@ -2,7 +2,8 @@ const roleHandle = require('../Models/role.handle');
 const status = require('../Config/status.json');
 const jwt = require('jsonwebtoken');
 
-const class_GroupFunction = 9
+const class_GroupFunction = 7
+
 
 function verifyToken(req, res, next) {
     const authorizationHeader = req.headers['authorization'];
@@ -37,19 +38,17 @@ function checkRole_Create(req, res, next) {
     });
 }
 
-function checkRole_Update(req, res, next) {
+function checkRole_AddRemove(req, res, next) {
     const view_type = 3;
     roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
         if (role.recordset[0].Enable >= view_type) next();
-        else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
+        else res.json({status: status.Forbidden, message: `As a ${role.recordset[0].RoleName}, you cannot access this function!`});
     });
 }
-
-
 
 module.exports = {
     verifyToken, 
     checkRole_View,
     checkRole_Create,
-    checkRole_Update
+    checkRole_AddRemove
 }
