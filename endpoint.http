@@ -1,6 +1,0 @@
-GET http://localhost:8888/api/users/
-Authorization: Beaer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjM3NzY3NjIwLCJleHAiOjE2Mzc3Njc2NTB9.3Ky_D2Tm4p_OPysFA_YFZqxTcG9SV_8NuqcYP6QOFRU
-
-
-###
-POST http://localhost:8888/api/users/admin1

@@ -1,9 +1,0 @@
-{
-    "mssql": {
-        "user": "Cathng11_SQLLogin_1",
-        "password": "tq483jkcdx",
-        "server": "DolphinExam.mssql.somee.com", 
-        "database": "DolphinExam",
-        "trustServerCertificate": true
-    } 
-}
