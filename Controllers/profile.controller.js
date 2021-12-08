@@ -3,38 +3,47 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
+const middleware = require('../_Middleware/profile.middleware');
 
-
-router.get('/',  (req, res) => {
-    const authorizationHeader = req.headers['authorization'];
-    // 'Bear [token]'
-    const token = authorizationHeader.split(' ')[1];
-    if (!token) res.json({status: status.Unauthorized});
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-        if (err) res.json({status: status.Forbidden});
-        console.log('api/profile called!!!!');
-
-        profileHandle.profile(data.username).then(function(value) {
-            res.json({status: status.Access, data: value.recordsets[0]});
-        });
-    })
+/**
+ * @swagger
+ * /api/profile:
+ *  get:
+ *    tags: 
+ *    - "Auth Server"
+ *    summary: "Self Profile"
+ *    description: Self Profile of an account
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "headers"
+ *      name: "authorization"
+ *      description: "Json Web Token"
+ *      required: true
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '200':
+ *        description: "status: Access | data"
+ *      '601':
+ *        description: "status: Forbidden/Access Denied | message: Error Token"
+ *      '602':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ */
+router.get('/', middleware.verifyToken, (req, res) => {
+    console.log('api/profile called!!!!');
+    profileHandle.profile(req.Username).then(function(value) {
+        res.json({status: status.Access, data: value.recordsets[0]});
+    });
 })
 
-router.post('/update',  (req, res) => {
-    const authorizationHeader = req.headers['authorization'];
-    // 'Bear [token]'
-    const token = authorizationHeader.split(' ')[1];
-    if (!token) res.json({status: status.Unauthorized});
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-        if (err) res.json({status: status.Forbidden});
-        console.log('api/profile/update called!!!!');
-        // console.log(req.body);
-        profileHandle.updateProfile(data.username, req.body).then(function(value) {
-            res.json({status: status.Access});
-        });
-    })
+router.post('/update', middleware.verifyToken, (req, res) => {
+    console.log('api/profile/update called!!!!');
+    profileHandle.updateProfile(req.Username, req.body).then(function(value) {
+        res.json({status: status.Access});
+    });
 })
 
 

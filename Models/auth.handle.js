@@ -32,7 +32,10 @@ module.exports = {
     },
     verify: function(username) {
         return ExcuteSQL(`update tb_User set Authentication = 1 where Username = '${username}'`);
-    }
+    },
+    getByUsername: function(username) {
+        return ExcuteSQL(`SELECT * FROM  tb_User WHERE Username = '${username}'`);
+    },
 }
 
 

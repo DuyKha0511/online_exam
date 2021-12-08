@@ -15,6 +15,15 @@ function ExcuteSQL(query) {
         });
 }
 
+// ExcuteSQL('select Avatar from tb_User').then(function(value) {
+//     value.recordset.map((v, index) => {
+//         new sql.Request().query(`
+//             update tb_User set Avatar = '${v.Avatar.replace('200x200', '400x400')}' where UserID=${index}
+//         `)
+//     })
+//     console.log('ok')
+// })
+
 module.exports = {
     profile: function(username) {
         return ExcuteSQL(`
@@ -27,11 +36,14 @@ module.exports = {
     updateProfile: function(username, newInfo) {
         return ExcuteSQL(`
             update tb_User set 
-            Fullname = N'${newInfo.Fullname}',
+            Firstname = N'${newInfo.Firstname}',
+            Lastname = N'${newInfo.Lastname}',
             Email = '${newInfo.Email}',
             Gender = ${newInfo.Gender ? 1 : 0},
             DateOfBirth = '${newInfo.DateOfBirth}',
-            Address = N'${newInfo.Address}'
+            Address = N'${newInfo.Address}',
+            Phone = N'${newInfo.Phone}',
+            Avatar = N'${newInfo.Avatar}'
             where Username='${username}'
         `);
     }

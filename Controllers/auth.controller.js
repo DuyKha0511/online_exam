@@ -4,8 +4,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
 const nodemailer = require('nodemailer');
-const axios = require('axios');
-const unlimited_token = require("../Config/token.json");
 
 const transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -15,28 +13,55 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-const user_api = 'http://localhost:8888/api/users'
-
 let refreshTokens = [];
 
+
+/**
+ * @swagger
+ * /api/auth/login:
+ *  post:
+ *    tags: 
+ *    - "Auth Server"
+ *    summary: "Login to the system"
+ *    description: Login to the system by username & password
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Username & Password of the User account"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          username:
+ *            type: string
+ *            default: "username"
+ *          password:
+ *            type: string
+ *            default: "password"
+ *    responses:
+ *      '200':
+ *        description: "status: Access | accessToken | refreshToken | data"
+ *      '601':
+ *        description: "status: Error Handle | message: Incorrect Username or Password!"
+ */
 router.post('/login', (req, res) => {
     console.log(`api/auth/login called!!!!`);
-
     const username = req.body.username;
     const password = req.body.password;
-    console.log(process.env.ACCESS_TOKEN_SECRET);
     authHandle.login(username, password).then(function(user) {
         if (user.recordsets[0].length) {
-            // const id = user.recordset[0].username;
-            const accessToken = jwt.sign({username}, process.env.ACCESS_TOKEN_SECRET, {
+            const accessToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '1d'
             });
-            const refreshToken = jwt.sign({username}, process.env.REFRESH_TOKEN_SECRET);
+            const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
             refreshTokens.push(refreshToken);
-            res.json({status: status.Access, accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
+            res.json({accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
         }
         else {
-            res.json({status: status.Unauthenticated, message: "Incorrect Username or Password!"});
+            res.json({status: status.Error, message: "Incorrect Username or Password!"});
         }
     });
 })
@@ -49,7 +74,7 @@ router.post('/refreshToken', (req, res) => {
 
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
         if (err) res.json({status: status.Forbidden});
-        const accessToken = jwt.sign({username: data.username}, process.env.ACCESS_TOKEN_SECRET, {
+        const accessToken = jwt.sign({UserID: data.UserID, Username: data.Username}, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1d'
         });
         res.json({accessToken: accessToken});
@@ -63,16 +88,47 @@ router.post('/logout', (req, res) => {
     res.json({status: status.Success});
 })
 
+/**
+ * @swagger
+ * /api/auth/signup:
+ *  post:
+ *    tags: 
+ *    - "Auth Server"
+ *    summary: "Sign up to the system"
+ *    description: Sign up to the system by username & password & email
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    security:
+ *    - Bearer: []
+ *    parameters:
+ *    - in : "header"
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Username & Password & Email of the account"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          username:
+ *            type: string
+ *          password:
+ *            type: string
+ *          email:
+ *            type: string
+ *    responses:
+ *      '200':
+ *        description: "status: Access"
+ *      '601':
+ *        description: "status: Error Handle | message"
+ */
 router.post('/signup', (req, res) => {
     console.log(`api/auth/signup called!!!!`);
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
-
-    axios.post(`${user_api}/${username}`, {} ,{
-        headers: { Authorization: 'Bearer ' + unlimited_token.token}
-    }).then((value) => {
-        if (value.data.data.length === 1) {
+    authHandle.getByUsername(username).then((value) => {
+        if (value.recordset.length === 1) {
             res.json({status: status.Error, message: "Username Existed!"});
         }
         else {
