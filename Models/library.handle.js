@@ -16,11 +16,16 @@ function ExcuteSQL(query) {
 }
 
 module.exports = {
-    getLibrariesByUser: function(username) {
+    getLibrariesByUserID: function(UserID) {
         return ExcuteSQL(`
-            SELECT Lf.* FROM tb_LibraryFolder AS Lf
-            JOIN tb_User AS U ON U.UserID = Lf.UserID
-            WHERE U.Username = '${username}' 
+            SELECT Lib.*, Num.TotalQuestions FROM tb_LibraryFolder AS Lib
+            JOIN 
+            (SELECT LF.LibraryFolderID, COUNT(Q.LibraryFolderID) AS TotalQuestions FROM  tb_Question AS Q
+            JOIN tb_LibraryFolder AS LF ON Q.LibraryFolderID = LF.LibraryFolderID
+            WHERE Q.LibraryFolderID IN 
+            (SELECT LibraryFolderID FROM tb_LibraryFolder WHERE UserID = ${UserID})
+            GROUP BY LF.LibraryFolderID, Q.LibraryFolderID) AS Num
+            ON Lib.LibraryFolderID = Num.LibraryFolderID 
         `);
     }
 }

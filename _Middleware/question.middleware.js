@@ -8,37 +8,44 @@ function verifyToken(req, res, next) {
     const authorizationHeader = req.headers['authorization'];
     // 'Bear [token]'
     const token = authorizationHeader.split(' ')[1];
-    if (!token) res.json({status: status.Unauthorized});
+    if (!token) res.json({status: status.Unauthorized, message: 'Unauthorized'});
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-        if (err) res.json({status: status.Forbidden});
-        next(data.username);
+        if (err) res.json({status: status.Forbidden, message: 'Error Token'});
+        try {
+            req.Username = data.Username;
+            req.UserID = data.UserID;
+            next();
+        }
+        catch {}
     })
 }
 
-function checkRole_View(username, req, res, next) {
+function checkRole_View(req, res, next) {
     const view_type = 1;
-    roleHandle.getRole(username, class_GroupFunction).then(function(role) {
-        if (role.recordsets[0][0].Enable >= view_type) next();
-        else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
+    roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
+        if (role.recordset[0].Enable >= view_type) next();
+        else res.json({status: status.Forbidden, message: `As a ${role.recordset[0].RoleName}, you cannot access this function!`});
     });
 }
 
-function checkRole_Create(username, req, res, next) {
+function checkRole_Create(req, res, next) {
     const view_type = 2;
-    roleHandle.getRole(username, class_GroupFunction).then(function(role) {
-        if (role.recordsets[0][0].Enable >= view_type) next();
+    roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
+        if (role.recordset[0].Enable >= view_type) next();
+        else res.json({status: status.Forbidden, message: `As a ${role.recordset[0].RoleName}, you cannot access this function!`});
+    });
+}
+
+function checkRole_Update(req, res, next) {
+    const view_type = 3;
+    roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
+        if (role.recordset[0].Enable >= view_type) next();
         else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
     });
 }
 
-function checkRole_Update(username, req, res, next) {
-    const view_type = 3;
-    roleHandle.getRole(username, class_GroupFunction).then(function(role) {
-        if (role.recordsets[0][0].Enable >= view_type) next();
-        else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
-    });
-}
+
 
 module.exports = {
     verifyToken, 

@@ -16,16 +16,15 @@ function ExcuteSQL(query) {
 }
 
 module.exports = {
-    getRole: function(username, groupFunctionID) {
+    getRole: function(UserID, groupFunctionID) {
         return ExcuteSQL(`
-            select P.*, R.RoleName from tb_Permission as P
-            join tb_Role as R on R.RoleID = P.RoleID
-            where P.RoleID = 
-            (select RoleID from tb_RoleOfUser 
-            where UserID = 
-            (select UserID from tb_User where Username = '${username}'))
-            and P.GroupFunctionID = ${groupFunctionID}
-        `);
+            SELECT P.*, R.RoleName FROM tb_Permission AS P
+            JOIN tb_Role AS R ON R.RoleID = P.RoleID
+            WHERE P.RoleID = 
+            (SELECT RoleID FROM tb_RoleOfUser 
+            WHERE UserID = ${UserID})
+            AND P.GroupFunctionID = ${groupFunctionID}
+        `)
     },
 
     getFunction: function(type, groupFunctionID) {

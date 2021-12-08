@@ -26,6 +26,7 @@
     "nodemailer": "^6.7.1",
     "nodemon": "^2.0.13",
     "request": "^2.88.2",
-    "socket.io": "^4.3.0"
+    "socket.io": "^4.3.0",
+    "tedious": "^14.0.0"
   }
 }
