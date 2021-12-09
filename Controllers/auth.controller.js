@@ -15,38 +15,6 @@ const transporter = nodemailer.createTransport({
 
 let refreshTokens = [];
 
-
-/**
- * @swagger
- * /api/auth/login:
- *  post:
- *    tags: 
- *    - "Auth Server"
- *    summary: "Login to the system"
- *    description: Login to the system by username & password
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    parameters:
- *    - in: "body"
- *      name: "body"
- *      description: "Username & Password of the User account"
- *      required: true
- *      schema:
- *        properties:
- *          username:
- *            type: string
- *            default: "username"
- *          password:
- *            type: string
- *            default: "password"
- *    responses:
- *      '200':
- *        description: "status: Access | accessToken | refreshToken | data"
- *      '601':
- *        description: "status: Error Handle | message: Incorrect Username or Password!"
- */
 router.post('/login', (req, res) => {
     console.log(`api/auth/login called!!!!`);
     const username = req.body.username;
@@ -54,7 +22,7 @@ router.post('/login', (req, res) => {
     authHandle.login(username, password).then(function(user) {
         if (user.recordsets[0].length) {
             const accessToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '1d'
+                expiresIn: '7d'
             });
             const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
             refreshTokens.push(refreshToken);
@@ -75,7 +43,7 @@ router.post('/refreshToken', (req, res) => {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, data) => {
         if (err) res.json({status: status.Forbidden});
         const accessToken = jwt.sign({UserID: data.UserID, Username: data.Username}, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1d'
+            expiresIn: '7d'
         });
         res.json({accessToken: accessToken});
     })
@@ -88,40 +56,7 @@ router.post('/logout', (req, res) => {
     res.json({status: status.Success});
 })
 
-/**
- * @swagger
- * /api/auth/signup:
- *  post:
- *    tags: 
- *    - "Auth Server"
- *    summary: "Sign up to the system"
- *    description: Sign up to the system by username & password & email
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    security:
- *    - Bearer: []
- *    parameters:
- *    - in : "header"
- *    - in: "body"
- *      name: "body"
- *      description: "Username & Password & Email of the account"
- *      required: true
- *      schema:
- *        properties:
- *          username:
- *            type: string
- *          password:
- *            type: string
- *          email:
- *            type: string
- *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
- *        description: "status: Error Handle | message"
- */
+
 router.post('/signup', (req, res) => {
     console.log(`api/auth/signup called!!!!`);
     const username = req.body.username;
