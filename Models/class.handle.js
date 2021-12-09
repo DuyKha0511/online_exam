@@ -36,6 +36,17 @@ module.exports = {
             JOIN tb_Class AS C ON C.ClassID = S.ClassID
         `);
     },
+    getClassByStudent: function(UserID) {
+        return ExcuteSQL(`
+            SELECT C.ClassID, C.ClassName, Num.TotalStudents, U.UserID AS TeacherID, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname
+            FROM
+            (SELECT ClassID, COUNT(*) AS TotalStudents FROM tb_ClassMember
+            WHERE ClassID IN (SELECT ClassID FROM tb_ClassMember WHERE UserID = ${UserID})
+            GROUP BY ClassID) AS Num
+            JOIN tb_Class AS C ON C.ClassID = Num.ClassID
+            JOIN tb_User AS U ON U.UserID = C.UserID
+        `);
+    },
     getMember: function(ClassID) {
         return ExcuteSQL(`
             select * from tb_User where UserID in
