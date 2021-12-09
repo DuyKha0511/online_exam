@@ -20,6 +20,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/UserLogin"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':

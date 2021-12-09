@@ -26,6 +26,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | accessToken | refreshToken | data"
+ *        schema:
+ *          $ref: "#/definitions/UserLogin"
  *      '601':
  *        description: "status: Error Handle | message: Incorrect Username or Password!"
  */

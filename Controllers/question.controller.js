@@ -20,6 +20,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/QuestionsOfLibrary"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
@@ -48,6 +50,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/Question"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
@@ -76,6 +80,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/SolutionsOfQuestion"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':

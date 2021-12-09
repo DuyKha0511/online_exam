@@ -1,11 +1,11 @@
 /**
  * @swagger
- * /api/classes/teacher:
+ * /api/classes/student:
  *  get:
  *    tags: 
  *    - "User Server"
- *    summary: "All classes of a teacher"
- *    description: Get classes by UserID
+ *    summary: "All classes of a student"
+ *    description: Get classes by a student ID
  *    consumes:
  *    - "application/json"
  *    produces:
@@ -20,6 +20,39 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        required: true
+ *        schema:
+ *          $ref: "#/definitions/ClassesOfStudent"
+ *      '601':
+ *        description: "status: Forbidden/Access Denied | message: Error Token"
+ *      '602':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ */
+
+/**
+ * @swagger
+ * /api/classes/teacher:
+ *  get:
+ *    tags: 
+ *    - "User Server"
+ *    summary: "All classes of a teacher"
+ *    description: Get classes by teacher ID
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "headers"
+ *      name: "authorization"
+ *      description: "Json Web Token"
+ *      required: true
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/ClassesOfTeacher"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
@@ -48,6 +81,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/ClassMembers"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
@@ -90,7 +125,7 @@
  *    - Bearer: []
  *    responses:
  *      '200':
- *        description: "status: Access | data"
+ *        description: "status: Access"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
@@ -132,7 +167,7 @@
  *    - Bearer: []
  *    responses:
  *      '200':
- *        description: "status: Access | data"
+ *        description: "status: Access"
  *      '601':
  *        description: "status: Forbidden/Access Denied | message: Error Token"
  *      '602':
