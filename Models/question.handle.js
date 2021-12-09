@@ -19,11 +19,9 @@ module.exports = {
     getAllQuestions: function() {
         return ExcuteSQL(`select * from tb_Question`);
     },
-    getQuestionsByUser: function(userID) {
+    getQuestionsByLibraryFolder: function(LibraryFolderID) {
         return ExcuteSQL(`
-            select Q.QuestionID, Q.Question, Q.Type, Q.Level, Lf.* from tb_Question as Q
-            join tb_LibraryFolder as Lf on Q.LibraryFolderID = Lf.LibraryFolderID
-            where Lf.UserID = ${userID}
+            select * from tb_Question where LibraryFolderID = ${LibraryFolderID}
         `);
     },
     getQuestionByID: function(questionID) {
