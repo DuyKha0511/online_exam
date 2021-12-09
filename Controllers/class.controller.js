@@ -34,9 +34,16 @@ router.post('/class/:classname', middleware.verifyToken, middleware.checkRole_Cr
 
 //Get Class by Teacher
 router.get('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
-    // var userID = req.params.userID;
     console.log(`api/classes/teacher/${req.UserID} called!!!!`);
     classHandle.getClassByTeacher(req.UserID).then(function(user) {
+        res.json({status: status.Access, data: user.recordsets[0]});
+    });
+})
+
+//Get Class by Student
+router.get('/student/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    console.log(`api/classes/student called!!!!`);
+    classHandle.getClassByStudent(req.UserID).then(function(user) {
         res.json({status: status.Access, data: user.recordsets[0]});
     });
 })
