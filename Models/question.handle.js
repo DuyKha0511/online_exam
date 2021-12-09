@@ -21,15 +21,19 @@ module.exports = {
     },
     getQuestionsByLibraryFolder: function(LibraryFolderID) {
         return ExcuteSQL(`
-            select * from tb_Question where LibraryFolderID = ${LibraryFolderID}
+            SELECT Q.*, S.SolutionID, S.Solution, S.Correct from tb_Question AS Q 
+            JOIN tb_Solution AS S ON Q.QuestionID = S.QuestionID
+            WHERE Q.LibraryFolderID = ${LibraryFolderID}
         `);
     },
     getQuestionByID: function(questionID) {
-        return ExcuteSQL(`select * from tb_Question where QuestionID = ${questionID}`);
+        return ExcuteSQL(`
+            SELECT Q.*, S.SolutionID, S.Solution, S.Correct from tb_Question AS Q 
+            JOIN tb_Solution AS S ON Q.QuestionID = S.QuestionID
+            WHERE Q.QuestionID = ${questionID}
+        `);
     },
     getSolution: function(questionID) {
         return ExcuteSQL(`select * from tb_Solution where QuestionID = ${questionID}`);
     }
 }
-
-
