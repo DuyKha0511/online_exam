@@ -1,19 +1,19 @@
 /**
  * @swagger
- * /api/question/lib/:LibraryID:
+ * /api/exam/class/{ClassID}:
  *  get:
  *    tags: 
- *    - "Question Server"
- *    summary: "All questions of a Library"
- *    description: All questions of a Library
+ *    - "Exam Server"
+ *    summary: "All exams in a class"
+ *    description: Get all exams in a class by ClassID
  *    consumes:
  *    - "application/json"
  *    produces:
  *    - "application/json"
  *    parameters:
  *    - in: "path"
- *      name: "LibraryID"
- *      description: "Json Web Token"
+ *      name: "ClassID"
+ *      description: "Type ClassID to get the exams in the class having this ClassID"
  *      required: true
  *    security:
  *    - Bearer: []
@@ -21,7 +21,7 @@
  *      '200':
  *        description: "status: Access | data"
  *        schema:
- *          $ref: "#/definitions/QuestionsOfLibrary"
+ *          $ref: "#/definitions/Exams"
  *      '601':
  *        description: "status: Error Handle | message: Error Token"
  *      '401':
@@ -32,19 +32,19 @@
 
 /**
  * @swagger
- * /api/question/:questionID:
+ * /api/exams/teacher:
  *  get:
  *    tags: 
- *    - "Question Server"
- *    summary: "Get question by ID"
- *    description: Get question by ID
+ *    - "Exam Server"
+ *    summary: "All exams were created by a teacher (in all classes)"
+ *    description: All exams were created by a teacher (in all classes)
  *    consumes:
  *    - "application/json"
  *    produces:
  *    - "application/json"
  *    parameters:
- *    - in: "path"
- *      name: "questionID"
+ *    - in: "headers"
+ *      name: "authorization"
  *      description: "Json Web Token"
  *      required: true
  *    security:
@@ -53,7 +53,7 @@
  *      '200':
  *        description: "status: Access | data"
  *        schema:
- *          $ref: "#/definitions/Question"
+ *          $ref: "#/definitions/ExamsOfTeacher"
  *      '601':
  *        description: "status: Error Handle | message: Error Token"
  *      '401':
@@ -64,19 +64,19 @@
 
 /**
  * @swagger
- * /api/question/:questionID/solution:
+ * /api/exams/student:
  *  get:
  *    tags: 
- *    - "Question Server"
- *    summary: "Get solutions of a question by ID"
- *    description: Get solutions of a question by ID
+ *    - "Exam Server"
+ *    summary: "All exams in all classes that this student take part in"
+ *    description: All exams in all classes that this student take part in
  *    consumes:
  *    - "application/json"
  *    produces:
  *    - "application/json"
  *    parameters:
- *    - in: "path"
- *      name: "questionID"
+ *    - in: "headers"
+ *      name: "authorization"
  *      description: "Json Web Token"
  *      required: true
  *    security:
@@ -85,7 +85,7 @@
  *      '200':
  *        description: "status: Access | data"
  *        schema:
- *          $ref: "#/definitions/SolutionsOfQuestion"
+ *          $ref: "#/definitions/ExamsOfStudent"
  *      '601':
  *        description: "status: Error Handle | message: Error Token"
  *      '401':

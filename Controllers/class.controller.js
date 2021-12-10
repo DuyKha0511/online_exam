@@ -24,9 +24,11 @@
  *        schema:
  *          $ref: "#/definitions/ClassesOfStudent"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
@@ -54,9 +56,11 @@
  *        schema:
  *          $ref: "#/definitions/ClassesOfTeacher"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
@@ -84,9 +88,11 @@
  *        schema:
  *          $ref: "#/definitions/ClassMembers"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 
@@ -127,9 +133,11 @@
  *      '200':
  *        description: "status: Access"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
@@ -169,7 +177,9 @@
  *      '200':
  *        description: "status: Access"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */

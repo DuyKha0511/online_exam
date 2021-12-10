@@ -142,7 +142,34 @@ const swaggerOptions = {
           LibraryFolderID: {
             type: "integer",
             default: 5
+          },
+          Solution: {
+            type: "array",
+            items: {
+              "$ref": "#/definitions/Solution"
+            }
           }
+        },
+        example: {
+          QuestionID: 317,
+          Question: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years.",
+          Type: "Multiple Choices",
+          Level: "Medium",
+          LibraryFolderID: 5,
+          Solution: [
+            {
+              SolutionID: 17,
+              Solution: "contacts",
+              Correct: true,
+              QuestionID: 1
+            },
+            {
+              SolutionID: 18,
+              Solution: "contacts",
+              Correct: true,
+              QuestionID: 1
+            }
+          ]
         }
       },
       QuestionsOfLibrary: {
@@ -156,14 +183,42 @@ const swaggerOptions = {
             Question: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years.",
             Type: "Multiple Choices",
             Level: "Medium",
-            LibraryFolderID: 1
+            LibraryFolderID: 1,
+            Solution: [
+              {
+                SolutionID: 17,
+                Solution: "contacts",
+                Correct: true,
+                QuestionID: 1
+              },
+              {
+                SolutionID: 18,
+                Solution: "contacts",
+                Correct: true,
+                QuestionID: 1
+              }
+            ]
           },
           {
             QuestionID: 17,
             Question: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years.",
             Type: "Single Choice",
             Level: "Hard",
-            LibraryFolderID: 1
+            LibraryFolderID: 1,
+            Solution: [
+              {
+                SolutionID: 17,
+                Solution: "contacts",
+                Correct: true,
+                QuestionID: 1
+              },
+              {
+                SolutionID: 18,
+                Solution: "contacts",
+                Correct: true,
+                QuestionID: 1
+              }
+            ]
           },
         ]
       },
@@ -465,7 +520,202 @@ const swaggerOptions = {
             default: "Student"
           }
         }
+      },      
+      Exam: {
+        type: "object",
+        properties: {
+          ExamID: {
+            type: "integer",
+            default: 13
+          },
+          ExamName: {
+            type: "string",
+            default: "Open-architected solution-oriented contingency"
+          },
+          TimeBegin: {
+            type: "string",
+            default: "2021-05-14T22:09:56.000Z"
+          },          
+          TimeEnd: {
+            type: "string",
+            default: "2021-12-01T13:28:52.000Z"
+          },
+          Duration: {
+            type: "integer",
+            default: 20
+          },
+          TotalQuestions: {
+            type: "integer",
+            default: 10
+          }
+        }
       },
+      Exams: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/Exam"
+        },
+        example: [
+          {
+            ExamID: 13,
+            ExamName: "Open-architected solution-oriented contingency",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 20,
+            TotalQuestions: 10
+          },
+          {
+            ExamID: 14,
+            ExamName: "Open-architected solution-oriented contingency 22",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 50,
+            TotalQuestions: 30
+          }
+        ]
+      },
+      ExamOfTeacher: {
+        type: "object",
+        properties: {
+          ClassID: {
+            type: "integer",
+            default: 13
+          },
+          ClassName: {
+            type: "string",
+            default: "Class Research and Development"
+          },
+          ExamID: {
+            type: "integer",
+            default: 13
+          },
+          ExamName: {
+            type: "string",
+            default: "Open-architected solution-oriented contingency"
+          },
+          TimeBegin: {
+            type: "string",
+            default: "2021-05-14T22:09:56.000Z"
+          },          
+          TimeEnd: {
+            type: "string",
+            default: "2021-12-01T13:28:52.000Z"
+          },
+          Duration: {
+            type: "integer",
+            default: 20
+          },
+          TotalQuestions: {
+            type: "integer",
+            default: 10
+          }
+        }
+      },
+      ExamsOfTeacher: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/ExamOfTeacher"
+        },
+        example: [
+          {
+            ClassID: 31,
+            ClassName: "Class Research and Development",
+            ExamID: 13,
+            ExamName: "Open-architected solution-oriented contingency",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 20,
+            TotalQuestions: 10
+          },
+          {
+            ClassID: 31,
+            ClassName: "Class Research and Development",
+            ExamID: 14,
+            ExamName: "Open-architected solution-oriented contingency 22",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 50,
+            TotalQuestions: 30
+          }
+        ]
+      },
+      ExamOfStudent: {
+        type: "object",
+        properties: {
+          ClassID: {
+            type: "integer",
+            default: 13
+          },
+          ClassName: {
+            type: "string",
+            default: "Class Research and Development"
+          },
+          TeacherID: {
+            type: "integer",
+            default: 422
+          },
+          TeacherFullname: {
+            type: "string",
+            default: "Onida McIan"
+          },
+          ExamID: {
+            type: "integer",
+            default: 13
+          },
+          ExamName: {
+            type: "string",
+            default: "Open-architected solution-oriented contingency"
+          },
+          TimeBegin: {
+            type: "string",
+            default: "2021-05-14T22:09:56.000Z"
+          },          
+          TimeEnd: {
+            type: "string",
+            default: "2021-12-01T13:28:52.000Z"
+          },
+          Duration: {
+            type: "integer",
+            default: 20
+          },
+          TotalQuestions: {
+            type: "integer",
+            default: 10
+          }
+        }
+      },
+      ExamsOfStudent: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/ExamOfStudent"
+        },
+        example: [
+          {
+            ClassID: 31,
+            ClassName: "Class Research and Development",
+            TeacherID: 422,
+            TeacherFullname: "Onida McIan",
+            ExamID: 13,
+            ExamName: "Open-architected solution-oriented contingency",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 20,
+            TotalQuestions: 10
+          },
+          {
+            ClassID: 31,
+            ClassName: "Class Research and Development",
+            TeacherID: 422,
+            TeacherFullname: "Onida McIan",
+            ExamID: 14,
+            ExamName: "Open-architected solution-oriented contingency 22",
+            TimeBegin: "2021-05-14T22:09:56.000Z",
+            TimeEnd: "2021-12-01T13:28:52.000Z",
+            Duration: 50,
+            TotalQuestions: 30
+          }
+        ]
+      }
     }
   },
   apis: [
@@ -474,6 +724,7 @@ const swaggerOptions = {
     "./Controllers/class.controller.js", 
     "./Controllers/library.controller.js", 
     "./Controllers/question.controller.js", 
+    "./Controllers/exam.controller.js"
   ]
 };
 

@@ -45,8 +45,6 @@
  *    - "application/json"
  *    produces:
  *    - "application/json"
- *    security:
- *    - Bearer: []
  *    parameters:
  *    - in : "header"
  *    - in: "body"

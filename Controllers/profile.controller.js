@@ -23,7 +23,9 @@
  *        schema:
  *          $ref: "#/definitions/UserLogin"
  *      '601':
- *        description: "status: Forbidden/Access Denied | message: Error Token"
- *      '602':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
  *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
