@@ -81,7 +81,7 @@ router.post('/signup', (req, res) => {
                         <h1>Hello ${username}, Welcome to Online Exam<h1>
                         <p>Thanks for registering on our site.<p>
                         <p>Please click the link below to verify you account.<p>
-                        <a href="http://localhost:8889/api/auth/verify?token=${username}">Verify your account</a>
+                        <a href="https://onlxam-a.herokuapp.com/api/auth/verify?token=${username}">Verify your account</a>
                     `
                 }
                 transporter.sendMail(verify_mail, (err, info) => {
