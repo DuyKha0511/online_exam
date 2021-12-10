@@ -1,95 +1,30 @@
-/**
- * @swagger
- * /api/exam/class/{ClassID}:
- *  get:
- *    tags: 
- *    - "Exam Server"
- *    summary: "All exams in a class"
- *    description: Get all exams in a class by ClassID
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    parameters:
- *    - in: "path"
- *      name: "ClassID"
- *      description: "Type ClassID to get the exams in the class having this ClassID"
- *      required: true
- *    security:
- *    - Bearer: []
- *    responses:
- *      '200':
- *        description: "status: Access | data"
- *        schema:
- *          $ref: "#/definitions/Exams"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
- */
+const libraryHandle = require('../Models/exam.handle');
+const express = require('express');
+const router = express.Router();
+const jwt = require('jsonwebtoken');
+const status = require('../Config/status.json');
+const middleware = require('../_Middleware/exam.middleware');
 
-/**
- * @swagger
- * /api/exams/teacher:
- *  get:
- *    tags: 
- *    - "Exam Server"
- *    summary: "All exams were created by a teacher (in all classes)"
- *    description: All exams were created by a teacher (in all classes)
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
- *    security:
- *    - Bearer: []
- *    responses:
- *      '200':
- *        description: "status: Access | data"
- *        schema:
- *          $ref: "#/definitions/ExamsOfTeacher"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
- */
+router.get('/class/:ClassID', middleware.verifyToken, middleware.checkRole_ViewInfo,  (req, res) => {
+    const ClassID = req.params.ClassID;
+    console.log(`api/exams/class/${ClassID} called!!!!`);
+    libraryHandle.getExamsOnClass(ClassID).then(function(value) {
+        res.json({status: status.Access, data: value.recordsets[0]});
+    });
+})
 
-/**
- * @swagger
- * /api/exams/student:
- *  get:
- *    tags: 
- *    - "Exam Server"
- *    summary: "All exams in all classes that this student take part in"
- *    description: All exams in all classes that this student take part in
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
- *    security:
- *    - Bearer: []
- *    responses:
- *      '200':
- *        description: "status: Access | data"
- *        schema:
- *          $ref: "#/definitions/ExamsOfStudent"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
- */
+router.get('/teacher/', middleware.verifyToken, middleware.checkRole_ViewInfo,  (req, res) => {
+    console.log(`api/exams/teacher/ called!!!!`);
+    libraryHandle.getExamsOfATeacher(req.UserID).then(function(value) {
+        res.json({status: status.Access, data: value.recordsets[0]});
+    });
+})
+
+router.get('/student/', middleware.verifyToken, middleware.checkRole_ViewInfo,  (req, res) => {
+    console.log(`api/exams/student/ called!!!!`);
+    libraryHandle.getExamsOfAStudent(req.UserID).then(function(value) {
+        res.json({status: status.Access, data: value.recordsets[0]});
+    });
+})
+
+module.exports = router;
