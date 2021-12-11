@@ -24,7 +24,7 @@ router.put('/', middleware.verifyToken, middleware.checkRole_Create, (req, res) 
 })
 
 //Get Class By Classname
-router.get('/:classID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+router.get('/class/:classID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     var classID = req.params.classID;
     console.log(`api/classes/${classID} called!!!!`);
     classHandle.getClassByID(classID).then(function(user) {
