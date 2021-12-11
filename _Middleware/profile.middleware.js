@@ -6,6 +6,7 @@ function verifyToken(req, res, next) {
     const authorizationHeader = req.headers['authorization'];
     // 'Bear [token]'
     const token = authorizationHeader.split(' ')[1];
+    console.log(token);
     if (!token) res.json({status: status.Error, message: 'Error Token'});
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
