@@ -28,6 +28,14 @@ module.exports = {
             ON Lib.LibraryFolderID = Num.LibraryFolderID 
         `);
     },
+    getLibraryByID: function(LibraryFolderID) {
+        return ExcuteSQL(`
+            SELECT L.*, Num.TotalQuestions FROM tb_LibraryFolder AS L JOIN 
+            (SELECT LibraryFolderID, COUNT(*) AS TotalQuestions FROM tb_Question WHERE LibraryFolderID = ${LibraryFolderID}
+            GROUP BY LibraryFolderID) AS Num
+            ON  Num.LibraryFolderID = L.LibraryFolderID
+        `);
+    }
     updateLibraryFolder: function(LibraryFolderID, newInfo) {
         return ExcuteSQL(`
             UPDATE tb_LibraryFolder SET 
