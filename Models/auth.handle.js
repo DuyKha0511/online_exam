@@ -25,10 +25,16 @@ module.exports = {
         `);
     },
     signup: function(username, password, email) {
-        ExcuteSQL(`
-            insert into tb_RoleOfUser values
-            ((select UserID from tb_User where Username = '${username}'), 3)
-        `);
+//         ExcuteSQL(`
+//             insert into tb_RoleOfUser values
+//             ((select UserID from tb_User where Username = '${username}'), 3)
+//         `);
+        sql.connect(db_config)
+        .then(function() {
+            sql.Request().query(`
+                insert into tb_RoleOfUser values
+                ((select UserID from tb_User where Username = '${username}'), 3)
+            `)});
         return ExcuteSQL(`
             insert into tb_User (Username, Password, Email, Authentication) 
             values ('${username}', '${password}', '${email}', 0)
