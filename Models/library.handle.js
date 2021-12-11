@@ -27,7 +27,27 @@ module.exports = {
             GROUP BY LF.LibraryFolderID, Q.LibraryFolderID) AS Num
             ON Lib.LibraryFolderID = Num.LibraryFolderID 
         `);
+    },
+    updateLibraryFolder: function(LibraryFolderID, newInfo) {
+        return ExcuteSQL(`
+            UPDATE tb_LibraryFolder SET 
+            LibraryFolderName = N'${newInfo.LibraryFolderName}', 
+            Description = N'${newInfo.Description}',
+            UpdatedDate = DATEADD(hh, 1, GETDATE()),
+            Avatar = '${newInfo.Avatar}'
+            WHERE LibraryFolderID = ${LibraryFolderID}
+        `);
+    },
+    insertLibraryFolder: function(UserID, newInfo) {
+        return ExcuteSQL(`
+            INSERT INTO tb_LibraryFolder VALUES
+            (N'${newInfo.LibraryFolderName}', N'${newInfo.Description}', DATEADD(hh, 1, GETDATE()), 
+            DATEADD(hh, 1, GETDATE()), ${UserID}, '${newInfo.Avatar}')
+        `);
+    },
+    deleteLibraryFolder: function(LibraryFolderID) {
+        return ExcuteSQL(`
+            DELETE FROM tb_LibraryFolder WHERE LibraryFolderID = ${LibraryFolderID}
+        `);
     }
 }
-
-
