@@ -12,5 +12,38 @@ router.get('/', middleware.verifyToken, middleware.checkRole_View,  (req, res) =
     });
 })
 
+router.post('/', middleware.verifyToken, middleware.checkRole_Create,  (req, res) => {
+    const newInfo = {
+        LibraryFolderName: req.body.LibraryFolderName,
+        Description: req.body.Description,
+        Avatar: req.body.Avatar
+    }
+    console.log(`api/libraries/ create called!!!!`);
+    libraryHandle.insertLibraryFolder(req.UserID, newInfo).then(function(value) {
+        res.json({status: status.Access});
+    });
+})
+
+
+router.put('/:LibraryID', middleware.verifyToken, middleware.checkRole_Update,  (req, res) => {
+    const LibraryID = req.params.LibraryID;
+    const newInfo = {
+        LibraryFolderName: req.body.LibraryFolderName,
+        Description: req.body.Description,
+        Avatar: req.body.Avatar
+    }
+    console.log(`api/libraries/${LibraryID} update called!!!!`);
+    libraryHandle.updateLibraryFolder(LibraryID, newInfo).then(function(value) {
+        res.json({status: status.Access});
+    });
+})
+
+
+router.delete('/:LibraryID', middleware.verifyToken, middleware.checkRole_Update,  (req, res) => {
+    console.log(`api/libraries/${req.params.LibraryID} delete called!!!!`);
+    libraryHandle.deleteLibraryFolder(req.params.LibraryID).then(function(value) {
+        res.json({status: status.Access});
+    });
+})
 
 module.exports = router;
