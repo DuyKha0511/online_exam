@@ -53,7 +53,7 @@ router.post('/logout', (req, res) => {
     console.log(`api/auth/logout called!!!!`);
     const refreshToken = req.body.refreshToken;
     refreshTokens = refreshTokens.filter(refToken => refToken !== refreshToken);
-    res.json({status: status.Success});
+    res.json({status: status.Access});
 })
 
 
@@ -88,7 +88,7 @@ router.post('/signup', (req, res) => {
                     if (err) {
                         console.error(err)
                     }
-                    else res.json({status: status.Success})
+                    else res.json({status: status.Access})
                 })
             });
         }
@@ -99,7 +99,7 @@ router.get('/verify', (req, res) => {
     console.log(`api/auth/verify called!!!!`);
     const username = req.query.token;
     authHandle.verify(username).then(() => {
-        res.json({status: status.Success, message: `Verified account '${username}'. Thanks for your register.`})
+        res.json({status: status.Access, message: `Verified account '${username}'. Thanks for your register.`})
     })
 })
 
