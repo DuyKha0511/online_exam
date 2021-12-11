@@ -20,12 +20,22 @@ module.exports = {
         return ExcuteSQL(`
             SELECT Lib.*, Num.TotalQuestions FROM tb_LibraryFolder AS Lib
             JOIN 
-            (SELECT LF.LibraryFolderID, COUNT(Q.LibraryFolderID) AS TotalQuestions FROM  tb_Question AS Q
+            (SELECT LF.LibraryFolderID, COUNT(Q.LibraryFolderID) 
+            AS TotalQuestions FROM  tb_Question AS Q
             JOIN tb_LibraryFolder AS LF ON Q.LibraryFolderID = LF.LibraryFolderID
             WHERE Q.LibraryFolderID IN 
             (SELECT LibraryFolderID FROM tb_LibraryFolder WHERE UserID = ${UserID})
             GROUP BY LF.LibraryFolderID, Q.LibraryFolderID) AS Num
-            ON Lib.LibraryFolderID = Num.LibraryFolderID 
+            ON Lib.LibraryFolderID = Num.LibraryFolderID
+            UNION 
+            SELECT *, 0 AS TotalQuestions FROM tb_LibraryFolder
+            WHERE LibraryFolderID IN 
+            (SELECT LibraryFolderID FROM tb_LibraryFolder WHERE UserID = ${UserID}
+            EXCEPT  
+            SELECT LibraryFolderID FROM tb_Question 
+            WHERE LibraryFolderID IN 
+            (SELECT LibraryFolderID FROM tb_LibraryFolder WHERE UserID = ${UserID})
+            GROUP BY LibraryFolderID)
         `);
     },
     getLibraryByID: function(LibraryFolderID) {
