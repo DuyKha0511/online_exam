@@ -28,7 +28,7 @@ module.exports = {
         return ExcuteSQL(`
             insert into tb_User (Username, Password, Email, Authentication) 
             values ('${username}', '${password}', '${email}', 0)
-            and
+            
             insert into tb_RoleOfUser values
             ((select UserID from tb_User where Username = '${username}'), 3)
         `);
