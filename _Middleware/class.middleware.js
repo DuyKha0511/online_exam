@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 
 const class_GroupFunction = 7
 
-
 function verifyToken(req, res, next) {
     const authorizationHeader = req.headers['authorization'];
     // 'Bear [token]'
+    if (!authorizationHeader) res.json({status: status.Error, message: 'Error Header Authorization'});
     const token = authorizationHeader.split(' ')[1];
     if (!token) res.json({status: status.Error, message: 'Error Token'});
 
