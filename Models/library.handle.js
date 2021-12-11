@@ -35,7 +35,7 @@ module.exports = {
             GROUP BY LibraryFolderID) AS Num
             ON  Num.LibraryFolderID = L.LibraryFolderID
         `);
-    }
+    },
     updateLibraryFolder: function(LibraryFolderID, newInfo) {
         return ExcuteSQL(`
             UPDATE tb_LibraryFolder SET 
