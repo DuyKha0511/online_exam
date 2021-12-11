@@ -13,28 +13,49 @@ router.get('/',  middleware.verifyToken, middleware.checkRole_View, (req, res) =
     });
 })
 
+//
+//Create New Class
+router.put('/', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
+    const ClassName = req.body.ClassName;
+    console.log(`api/classes/ create new class called!!!!`);
+    classHandle.createClass(req.UserID, ClassName).then(function(user) {
+        res.json({status: status.Access});
+    });
+})
+
 //Get Class By Classname
-router.get('/class/:classname', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
-    var classname = req.params.classname;
-    console.log(`api/classes/class/${classname} called!!!!`);
-    classHandle.getClassByName(classname).then(function(user) {
+router.get('/:classID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    var classID = req.params.classID;
+    console.log(`api/classes/${classID} called!!!!`);
+    classHandle.getClassByID(classID).then(function(user) {
         res.json({status: status.Access, data: user.recordsets[0]});
     });
 })
 
+//
 //Change Classname
-router.post('/class/:classname', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
-    const classname = req.params.classname;
-    const newName = req.body.newName;
-    console.log(`api/classes/class/${classname}-post ${newName} called!!!!`);
-    classHandle.changeName(classname, newName).then(function(user) {
-        res.json({status: status.Access, data: user.recordsets[0]});
+router.put('/:classID', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
+    const classID = req.params.classID;
+    const ClassName = req.body.ClassName;
+    console.log(`api/classes/${classID} change name ${ClassName} called!!!!`);
+    classHandle.changeName(classID, ClassName).then(function(user) {
+        res.json({status: status.Access});
+    });
+})
+
+//
+//Delete Class
+router.delete('/:classID', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
+    const classID = req.params.classID;
+    console.log(`api/classes/${classID} deleteClass called!!!!`);
+    classHandle.deleteClass(classID).then(function(user) {
+        res.json({status: status.Access});
     });
 })
 
 //Get Class by Teacher
 router.get('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
-    console.log(`api/classes/teacher/${req.UserID} called!!!!`);
+    console.log(`api/classes/teacher called!!!!`);
     classHandle.getClassByTeacher(req.UserID).then(function(user) {
         res.json({status: status.Access, data: user.recordsets[0]});
     });
@@ -57,24 +78,28 @@ router.get('/member/:ClassID', middleware.verifyToken, middleware.checkRole_View
     });
 })
 
+//
 //Add a member to a class
-router.put('/member/:classname', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
-    const classname = req.params.classname;
-    const userID = req.body.userID;
-    console.log(`api/classes/member/${classname}-put ${userID} called!!!!`);
-    classHandle.addMember(classname, userID).then(function(user) {
-        res.json({status: status.Access, data: user.recordsets[0]});
+router.put('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
+    const ClassID = req.params.ClassID;
+    const UserID = req.body.UserID;
+    console.log(`api/classes/member/${ClassID}- add member ${UserID} called!!!!`);
+    classHandle.addMember(ClassID, UserID).then(function(user) {
+        res.json({status: status.Access});
     });
 })
 
+//
 //Remove a member from a class
-router.delete('/member/:classname', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
-    const classname = req.params.classname;
-    const userID = req.body.userID;
-    console.log(`api/classes/member/${classname}-delete ${userID} called!!!!`);
-    classHandle.deleteMember(classname, userID).then(function(user) {
-        res.json({status: status.Access, data: user.recordsets[0]});
+router.delete('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
+    const ClassID = req.params.ClassID;
+    const UserID = req.body.UserID;
+    console.log(`api/classes/member/${ClassID}- remove member ${UserID} called!!!!`);
+    classHandle.deleteMember(ClassID, UserID).then(function(user) {
+        res.json({status: status.Access});
     });
 })
+
+
 
 module.exports = router;
