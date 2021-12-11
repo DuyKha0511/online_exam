@@ -20,6 +20,8 @@ router.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     authHandle.login(username, password).then(function(user) {
+        console.log(user.recordset[0].length);
+        console.log(user.recordsets[0].length);
         if (user.recordsets[0].length) {
             const accessToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '7d'
