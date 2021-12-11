@@ -17,10 +17,15 @@ function ExcuteSQL(query) {
 
 module.exports = {
     getAllClasses: function() {
-        return ExcuteSQL(class_selectAll);
+        return ExcuteSQL(`SELECT * FROM tb_Class`);
     },
-    getClassByName: function(name) {
-        return ExcuteSQL(`SELECT * FROM tb_Class where ClassName = '${name}'`);
+    createClass: function(TeacherID, ClassName) {
+        return ExcuteSQL(`
+            INSERT INTO tb_Class VALUES (N'${ClassName}', ${TeacherID}, NULL)
+        `);
+    },
+    getClassByID: function(ClassID) {
+        return ExcuteSQL(`SELECT * FROM tb_Class where ClassID = ${ClassID}`);
     },
     getClassByTeacher: function(UserID) {
         return ExcuteSQL(`
@@ -53,24 +58,24 @@ module.exports = {
             (select UserID from tb_ClassMember where ClassID = ${ClassID})
         `);
     },
-    addMember: function(classname, userID) {
+    addMember: function(ClassID, userID) {
         return ExcuteSQL(`
-            insert into tb_ClassMember values(
-            (select ClassID from tb_Class where ClassName = '${classname}'), ${userID})
+            insert into tb_ClassMember values(${ClassID}, ${userID})
         `);   
     },
-    deleteMember: function(classname, userID) {
+    deleteMember: function(ClassID, userID) {
         return ExcuteSQL(`
-            delete tb_ClassMember where
-            ClassID = (select ClassID from tb_Class where ClassName = '${classname}')
-            and UserID = ${userID}
+            delete from tb_ClassMember where ClassID = ${ClassID} and UserID = ${userID} 
         `);
     },
-    changeName: function(classname, newName) {
+    changeName: function(ClassID, newName) {
         return ExcuteSQL(`
-            update tb_Class set ClassName = N'${newName}' where ClassName = N'${classname}'
+            update tb_Class set ClassName = N'${newName}' where ClassID = ${ClassID}
         `);
-    }
+    },
+    deleteClass: function(ClassID) {
+        return ExcuteSQL(`
+            delete from tb_Class where ClassID = ${ClassID}
+        `);
+    },
 }
-
-
