@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/exam/class/{ClassID}:
+ * /api/exams/class/{ClassID}:
  *  get:
  *    tags: 
  *    - "Exam Server"
