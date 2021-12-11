@@ -25,6 +25,10 @@ module.exports = {
         `);
     },
     signup: function(username, password, email) {
+        ExcuteSQL(`
+            insert into tb_RoleOfUser values
+            ((select UserID where Username = '${username}'), 3)
+        `);
         return ExcuteSQL(`
             insert into tb_User (Username, Password, Email, Authentication) 
             values ('${username}', '${password}', '${email}', 0)
