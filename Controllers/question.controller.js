@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/question/lib/:LibraryID:
+ * /api/questions/lib/:LibraryID:
  *  get:
  *    tags: 
  *    - "Question Server"
@@ -32,7 +32,7 @@
 
 /**
  * @swagger
- * /api/question/:questionID:
+ * /api/questions/:questionID:
  *  get:
  *    tags: 
  *    - "Question Server"
@@ -64,7 +64,7 @@
 
 /**
  * @swagger
- * /api/question/:questionID/solution:
+ * /api/questions/:questionID/solution:
  *  get:
  *    tags: 
  *    - "Question Server"
