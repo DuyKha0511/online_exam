@@ -12,6 +12,13 @@ router.get('/', middleware.verifyToken, middleware.checkRole_View,  (req, res) =
     });
 })
 
+router.get('/:LibraryID', middleware.verifyToken, middleware.checkRole_View,  (req, res) => {
+    console.log(`api/libraries/${req.params.LibraryID} called!!!!`);
+    libraryHandle.getLibraryByID(req.params.LibraryID).then(function(value) {
+        res.json({status: status.Access, data: value.recordsets[0]});
+    });
+})
+
 router.post('/', middleware.verifyToken, middleware.checkRole_Create,  (req, res) => {
     const newInfo = {
         LibraryFolderName: req.body.LibraryFolderName,
