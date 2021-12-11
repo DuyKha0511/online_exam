@@ -70,7 +70,7 @@ router.post('/signup', (req, res) => {
             authHandle.signup(username, password, email).then(result => {
                 const verify_mail = {
                     from: "phanduykha2000@gmail.com",
-                    to: "phanduykha2000@gmail.com",
+                    to: `${email}`,
                     subject: "Online Exam - Verify your account",
                     text: `
                         Hello ${username}, thanks for registering on Online Exam.
