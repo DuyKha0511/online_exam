@@ -27,18 +27,18 @@ module.exports = {
     getClassByID: function(ClassID) {
         return ExcuteSQL(`SELECT * FROM tb_Class where ClassID = ${ClassID}`);
     },
-    getClassByTeacher: function(UserID) {
+    getClassesByTeacher: function(UserID) {
         return ExcuteSQL(`
-            SELECT C.ClassID, C.ClassName, S.TotalStudents, A.TotalAssignments, C.UserID FROM 
-            (SELECT ClassID, COUNT(*) AS TotalAssignments FROM tb_ExamOfClass WHERE ClassID IN
-            (SELECT ClassID FROM tb_Class WHERE UserID = ${UserID})
-            GROUP BY ClassID) AS A
-            JOIN 
-            (SELECT ClassID, COUNT(*) AS TotalStudents FROM tb_ClassMember WHERE ClassID IN
-            (SELECT ClassID FROM tb_Class WHERE UserID = ${UserID})
-            GROUP BY ClassID) AS S 
-            ON A.ClassID = S.ClassID
-            JOIN tb_Class AS C ON C.ClassID = S.ClassID
+            SELECT ClassID, ClassName, [dbo].CheckIfClassHasMember(ClassID) AS TotalStudents, 
+            [dbo].CheckIfClassHasExam(ClassID) AS TotalAssignments, UserID
+            FROM tb_Class WHERE UserID = ${UserID}
+        `);
+    },
+    getClassByTeacher: function(UserID, ClassID) {
+        return ExcuteSQL(`
+            SELECT ClassID, ClassName, [dbo].CheckIfClassHasMember(ClassID) AS TotalStudents, 
+            [dbo].CheckIfClassHasExam(ClassID) AS TotalAssignments, UserID
+            FROM tb_Class WHERE ClassID = ${ClassID} AND UserID = ${UserID}
         `);
     },
     getClassByStudent: function(UserID) {
@@ -79,3 +79,5 @@ module.exports = {
         `);
     },
 }
+
+
