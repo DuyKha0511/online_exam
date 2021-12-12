@@ -40,10 +40,13 @@ module.exports = {
     },
     getLibraryByID: function(LibraryFolderID) {
         return ExcuteSQL(`
-            SELECT L.*, Num.TotalQuestions FROM tb_LibraryFolder AS L JOIN 
-            (SELECT LibraryFolderID, COUNT(*) AS TotalQuestions FROM tb_Question WHERE LibraryFolderID = ${LibraryFolderID}
-            GROUP BY LibraryFolderID) AS Num
-            ON  Num.LibraryFolderID = L.LibraryFolderID
+            IF EXISTS (SELECT * FROM tb_Question WHERE LibraryFolderID = ${LibraryFolderID}) 
+                (SELECT L.*, Num.TotalQuestions FROM tb_LibraryFolder AS L JOIN 
+                (SELECT LibraryFolderID, COUNT(*) AS TotalQuestions FROM tb_Question WHERE LibraryFolderID = ${LibraryFolderID}
+                GROUP BY LibraryFolderID) AS Num
+                ON  Num.LibraryFolderID = L.LibraryFolderID)
+            ELSE 
+                (SELECT *, 0.TotalQuestions FROM tb_LibraryFolder WHERE LibraryFolderID = ${LibraryFolderID})
         `);
     },
     updateLibraryFolder: function(LibraryFolderID, newInfo) {
