@@ -56,8 +56,16 @@ router.delete('/:classID', middleware.verifyToken, middleware.checkRole_Create, 
 //Get Class by Teacher
 router.get('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     console.log(`api/classes/teacher called!!!!`);
-    classHandle.getClassByTeacher(req.UserID).then(function(user) {
+    classHandle.getClassesByTeacher(req.UserID).then(function(user) {
         res.json({status: status.Access, data: user.recordsets[0]});
+    });
+})
+
+//Get Class by Teacher
+router.get('/teacher/:ClassID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    console.log(`api/classes/teacher/${req.params.ClassID} called!!!!`);
+    classHandle.getClassByTeacher(req.UserID, req.params.ClassID).then(function(user) {
+        res.json({status: status.Access, data: user.recordset[0]});
     });
 })
 
