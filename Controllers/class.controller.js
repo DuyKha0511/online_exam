@@ -65,6 +65,47 @@
 
 /**
  * @swagger
+ * /api/classes/teacher/:ClassID:
+ *  get:
+ *    tags: 
+ *    - "User Server"
+ *    summary: "The class of a teacher has this ClassID"
+ *    description: Get class of teacher by ClassID
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "headers"
+ *      name: "authorization"
+ *      description: "Json Web Token"
+ *      required: true
+ *    - in: "path"
+ *      name: "ClassID"
+ *      description: "ClassID of the class"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          ClassID:
+ *            type: integer
+ *            default: 204
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/ClassOfTeacher"
+ *      '601':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ */
+
+/**
+ * @swagger
  * /api/classes/member/:ClassID:
  *  get:
  *    tags: 
