@@ -46,5 +46,15 @@ module.exports = {
             Avatar = N'${newInfo.Avatar}'
             where Username='${username}'
         `);
+    },
+    checkPassword: function(userID, password) {
+        return ExcuteSQL(`
+            select * from tb_User where UserID = ${userID} and Password = ${password}
+        `);
+    },
+    changePassword: function(userID, oldPassword, newPassword) {
+        return ExcuteSQL(`
+            update tb_User set Password = '${newPassword}' where UserID = ${userID} and Password = '${oldPassword}'
+        `);
     }
 }
