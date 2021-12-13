@@ -39,6 +39,9 @@ module.exports = {
     getByUsername: function(username) {
         return ExcuteSQL(`SELECT * FROM  tb_User WHERE Username = '${username}'`);
     },
+    getByEmail: function(email) {
+        return ExcuteSQL(`SELECT * FROM  tb_User WHERE Email = '${email}'`);
+    }
 }
 
 
