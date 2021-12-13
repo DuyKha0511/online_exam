@@ -8,6 +8,7 @@ const middleware = require('../_Middleware/profile.middleware');
 router.get('/', middleware.verifyToken, (req, res) => {
     console.log('api/profile called!!!!');
     profileHandle.profile(req.Username).then(function(value) {
+        value.recordsets[0][0].Password = '';
         res.json({status: status.Access, data: value.recordsets[0]});
     });
 })
