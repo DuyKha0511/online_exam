@@ -80,7 +80,7 @@ router.post('/signup', (req, res) => {
                             text: `
                                 Hello ${username}, thanks for registering on Online Exam.
                                 Please click the link below to verify you account.
-                                http://localhost:8889/api/auth/verify?token=${username}
+                                https://onlxam-a.herokuapp.com/api/auth/verify?token=${username}
                             `,
                             html: `
                                 <h1>Hello ${username}, Welcome to Online Exam<h1>
