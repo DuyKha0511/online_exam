@@ -27,7 +27,7 @@ router.post('/login', (req, res) => {
             const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
             refreshTokens.push(refreshToken);
             user.recordset[0].Password = '';
-            res.json({accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
+            res.json({status: status.Access, accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
         }
         else {
             res.json({status: status.Error, message: "Incorrect Username or Password!"});
@@ -93,7 +93,7 @@ router.post('/signup', (req, res) => {
                             if (err) {
                                 console.error(err)
                             }
-                            else res.json({status: status.Success})
+                            else res.json({status: status.Access})
                         })
                     });
                 }
@@ -106,7 +106,7 @@ router.get('/verify', (req, res) => {
     console.log(`api/auth/verify called!!!!`);
     const username = req.query.token;
     authHandle.verify(username).then(() => {
-        res.json({status: status.Success, message: `Verified account '${username}'. Thanks for your register.`})
+        res.json({status: status.Access, message: `Verified account '${username}'. Thanks for your register.`})
     })
 })
 
