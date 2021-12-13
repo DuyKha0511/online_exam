@@ -26,6 +26,7 @@ router.post('/login', (req, res) => {
             });
             const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
             refreshTokens.push(refreshToken);
+            user.recordset[0].Password = '';
             res.json({accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
         }
         else {
