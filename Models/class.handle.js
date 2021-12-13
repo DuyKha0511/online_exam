@@ -58,9 +58,9 @@ module.exports = {
             (select UserID from tb_ClassMember where ClassID = ${ClassID})
         `);
     },
-    addMember: function(ClassID, userID) {
+    addMember: function(ClassID, Email) {
         return ExcuteSQL(`
-            insert into tb_ClassMember values(${ClassID}, ${userID})
+            insert into tb_ClassMember values(${ClassID}, (select UserID from tb_User where Email = '${Email}'))
         `);   
     },
     deleteMember: function(ClassID, userID) {
@@ -78,6 +78,9 @@ module.exports = {
             delete from tb_Class where ClassID = ${ClassID}
         `);
     },
+    checkUserInClass: function(Email, ClassID) {
+        return ExcuteSQL(`
+            SELECT *, [dbo].CheckIfUserIsInClass(${ClassID}, Email) AS Flag FROM tb_User WHERE Email = '${Email}' 
+        `);
+    }
 }
-
-
