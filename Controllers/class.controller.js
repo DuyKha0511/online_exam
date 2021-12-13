@@ -86,26 +86,34 @@ router.get('/member/:ClassID', middleware.verifyToken, middleware.checkRole_View
     });
 })
 
+//Check member is valid or in class by email
+router.post('/member/:ClassID/check', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
+    const ClassID = req.params.ClassID;
+    const Email = req.body.Email;
+    console.log(`api/classes/member/${ClassID}/check- check member called!!!!`);
+    classHandle.checkUserInClass(Email, ClassID).then(function(data) {
+        if (data.recordset.length == 1) {
+            if (data.recordset[0].Flag === 'NotStudent') 
+                res.json({status: status.Error, message: 'This email is not owned by a student!'});
+            else if (data.recordset[0].Flag === 'CanAdd')
+                res.json({status: status.Access, message: 'This student can be added to the class!'});
+            else res.json({status: status.Error, message: 'This student is already in this class!'})
+        }
+        else res.json({status: status.Error, message: 'Invalid Email of Student!'})
+    });
+})
+
 //
 //Add a member to a class
 router.put('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
     const ClassID = req.params.ClassID;
     const Email = req.body.Email;
-    console.log(`api/classes/member/${ClassID}- add member ${Email} called!!!!`);
-    classHandle.checkUserInClass(Email, ClassID).then(function(data) {
-        if (data.recordset.length == 1) {
-            if (data.recordset[0].Flag === 'CanAdd')
-                classHandle.addMember(ClassID, Email).then(function(user) {
-                    delete data.recordset[0].Password;
-                    delete data.recordset[0].Flag;
-                    res.json({status: status.Access, data: data.recordset[0]});
-                });
-            else if (data.recordset[0].Flag === 'NotStudent') {
-                res.json({status: status.Access, message: 'This email is not owned by a student!'});
-            }
-            else res.json({status: status.Error, message: 'The student is already in this class!'})
-        }
-        else res.json({status: status.Error, message: 'Invalid Email of Student!'})
+    console.log(`api/classes/member/${ClassID}- add member called!!!!`);
+    classHandle.addMember(ClassID, Email).then(function(user) {
+        user.recordsets[0].map((value) => {
+            value.Password = ''
+        });
+        res.json({status: status.Access, data: user.recordsets[0]});
     });
 })
 
