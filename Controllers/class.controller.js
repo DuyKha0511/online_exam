@@ -122,7 +122,7 @@ router.put('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddR
 router.delete('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
     const ClassID = req.params.ClassID;
     const UserID = req.body.UserID;
-    console.log(`api/classes/member/${ClassID}- remove member ${UserID} called!!!!`);
+    console.log(`api/classes/member/${ClassID}- remove member called!!!!`);
     classHandle.deleteMember(ClassID, UserID).then(function(user) {
         res.json({status: status.Access});
     });
