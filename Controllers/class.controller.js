@@ -90,10 +90,22 @@ router.get('/member/:ClassID', middleware.verifyToken, middleware.checkRole_View
 //Add a member to a class
 router.put('/member/:ClassID', middleware.verifyToken, middleware.checkRole_AddRemove, (req, res) => {
     const ClassID = req.params.ClassID;
-    const UserID = req.body.UserID;
-    console.log(`api/classes/member/${ClassID}- add member ${UserID} called!!!!`);
-    classHandle.addMember(ClassID, UserID).then(function(user) {
-        res.json({status: status.Access});
+    const Email = req.body.Email;
+    console.log(`api/classes/member/${ClassID}- add member ${Email} called!!!!`);
+    classHandle.checkUserInClass(Email, ClassID).then(function(data) {
+        if (data.recordset.length == 1) {
+            if (data.recordset[0].Flag === 'CanAdd')
+                classHandle.addMember(ClassID, Email).then(function(user) {
+                    delete data.recordset[0].Password;
+                    delete data.recordset[0].Flag;
+                    res.json({status: status.Access, data: data.recordset[0]});
+                });
+            else if (data.recordset[0].Flag === 'NotStudent') {
+                res.json({status: status.Access, message: 'This email is not owned by a student!'});
+            }
+            else res.json({status: status.Error, message: 'The student is already in this class!'})
+        }
+        else res.json({status: status.Error, message: 'Invalid Email of Student!'})
     });
 })
 
