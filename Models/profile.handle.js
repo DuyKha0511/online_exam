@@ -56,5 +56,10 @@ module.exports = {
         return ExcuteSQL(`
             update tb_User set Password = '${newPassword}' where UserID = ${userID} and Password = '${oldPassword}'
         `);
+    },
+    checkEmail: function(UserID, Email) {
+        return ExcuteSQL(`
+            select * from tb_User where Email = '${Email}' and UserID != ${UserID}
+        `);
     }
 }
