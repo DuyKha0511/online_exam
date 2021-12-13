@@ -75,9 +75,11 @@ module.exports = {
         return ExcuteSQL(query);   
     },
     deleteMember: function(ClassID, userID) {
-        return ExcuteSQL(`
-            delete from tb_ClassMember where ClassID = ${ClassID} and UserID = ${userID} 
-        `);
+        var query = ``;
+        userID.map((value) => {
+            query += `delete from tb_ClassMember where ClassID = ${ClassID} and UserID = '${value}'\n`;
+        });
+        return ExcuteSQL(query);
     },
     changeName: function(ClassID, newName) {
         return ExcuteSQL(`
