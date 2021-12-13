@@ -15,9 +15,16 @@ router.get('/', middleware.verifyToken, (req, res) => {
 
 router.post('/update', middleware.verifyToken, (req, res) => {
     console.log('api/profile/update called!!!!');
-    profileHandle.updateProfile(req.Username, req.body).then(function(value) {
-        res.json({status: status.Access});
-    });
+    profileHandle.checkEmail(req.UserID, req.body.Email).then((response) => {
+        if (response.recordsets[0].length === 1) {
+            res.json({status: status.Error, message: "Email is already taken by the other user!"});
+        }
+        else {
+            profileHandle.updateProfile(req.Username, req.body).then(function(value) {
+                res.json({status: status.Access});
+            });
+        }
+    })
 })
 
 router.post('/password', middleware.verifyToken, (req, res) => {
