@@ -59,9 +59,20 @@ module.exports = {
         `);
     },
     addMember: function(ClassID, Email) {
-        return ExcuteSQL(`
-            insert into tb_ClassMember values(${ClassID}, (select UserID from tb_User where Email = '${Email}'))
-        `);   
+        var query = `insert into tb_ClassMember values \n`;
+        var listEmail = `(`;
+        Email.map((value, index) => {
+            if (index < Email.length - 1) {
+                query += `(${ClassID}, (select UserID from tb_User where Email = '${value}')), \n`;
+                listEmail += `'${value}', `
+            }
+            else {
+                query += `(${ClassID}, (select UserID from tb_User where Email = '${value}')) \n`;
+                listEmail += `'${value}')`;
+            }
+        });
+        query += `select * from tb_User where Email in ${listEmail}`;
+        return ExcuteSQL(query);   
     },
     deleteMember: function(ClassID, userID) {
         return ExcuteSQL(`
