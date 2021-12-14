@@ -10,29 +10,65 @@
  *    - "application/json"
  *    produces:
  *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
  *    security:
  *    - Bearer: []
  *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  *      '200':
  *        description: "status: Access | data"
  *        schema:
  *          $ref: "#/definitions/LibrariesOfTeacher"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
  * @swagger
- * /api/libraries/:
+ * /api/libraries/:LibraryID:
+ *  get:
+ *    tags: 
+ *    - "Question Server"
+ *    summary: "Library Folder of a Teacher have this ID"
+ *    description: Get Library Folder of a Teacher by LibraryID
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "LibraryID"
+ *      description: "LibraryID to get info"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          LibraryID:
+ *            type: int
+ *            default: 204
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/LibraryOfTeacher"
+ */
+
+/**
+ * @swagger
+ * /api/libraries:
  *  post:
  *    tags: 
  *    - "Question Server"
@@ -61,14 +97,16 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */
 
 /**
@@ -111,14 +149,16 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */
 
 /**
@@ -146,12 +186,14 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */

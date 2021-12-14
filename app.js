@@ -120,6 +120,51 @@ const swaggerOptions = {
           }
         ]
       },
+      NewQuestion: {
+        type: "object",
+        properties: {
+          Question: {
+            type: "string",
+            default: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years."
+          },
+          Type: {
+            type: "string",
+            default: "Multiple Choices"
+          },
+          Level: {
+            type: "string",
+            default: "Medium"
+          },
+          Solution: {
+            type: "array",
+            items: {
+              Solution: {
+                type: "string",
+                default: "contact"
+              },
+              Correct: {
+                type: "boolean",
+                default: true
+              }, 
+            }
+          }
+        },
+        example: {
+          Question: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years.",
+          Type: "Multiple Choices",
+          Level: "Medium",
+          Solution: [
+            {
+              Solution: "contacts",
+              Correct: true,
+            },
+            {
+              Solution: "contacts",
+              Correct: true,
+            }
+          ]
+        }
+      },
       Question: {
         type: "object",
         properties: {
@@ -715,7 +760,38 @@ const swaggerOptions = {
             TotalQuestions: 30
           }
         ]
-      }
+      },
+      ReviewExam: {
+        type: "object",
+        properties: {
+          ExamID: {
+            type: "integer",
+            default: 13
+          },
+          ExamName: {
+            type: "string",
+            default: "Open-architected solution-oriented contingency"
+          },
+          TimeBegin: {
+            type: "string",
+            default: "2021-05-14T22:09:56.000Z"
+          },          
+          TimeEnd: {
+            type: "string",
+            default: "2021-12-01T13:28:52.000Z"
+          },
+          Duration: {
+            type: "integer",
+            default: 20
+          },
+          Questions: {
+            type: "array",
+            items: {
+              "$ref": "#/definitions/QuestionsOfLibrary"
+            }
+          }
+        }
+      },
     }
   },
   apis: [

@@ -10,25 +10,22 @@
  *    - "application/json"
  *    produces:
  *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
  *    security:
  *    - Bearer: []
  *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  *      '200':
  *        description: "status: Access | data"
  *        required: true
  *        schema:
  *          $ref: "#/definitions/ClassesOfStudent"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
@@ -43,65 +40,21 @@
  *    - "application/json"
  *    produces:
  *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
  *    security:
  *    - Bearer: []
  *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  *      '200':
  *        description: "status: Access | data"
  *        schema:
  *          $ref: "#/definitions/ClassesOfTeacher"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
- */
-
-/**
- * @swagger
- * /api/classes/teacher/:ClassID:
- *  get:
- *    tags: 
- *    - "User Server"
- *    summary: "The class of a teacher has this ClassID"
- *    description: Get class of teacher by ClassID
- *    consumes:
- *    - "application/json"
- *    produces:
- *    - "application/json"
- *    parameters:
- *    - in: "headers"
- *      name: "authorization"
- *      description: "Json Web Token"
- *      required: true
- *    - in: "path"
- *      name: "ClassID"
- *      description: "ClassID of the class"
- *      required: true
- *      schema:
- *        properties:
- *          ClassID:
- *            type: integer
- *            default: 204
- *    security:
- *    - Bearer: []
- *    responses:
- *      '200':
- *        description: "status: Access | data"
- *        schema:
- *          $ref: "#/definitions/ClassOfTeacher"
- *      '601':
- *        description: "status: Error Handle | message: Error Token"
- *      '401':
- *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
  */
 
 /**
@@ -124,18 +77,71 @@
  *    security:
  *    - Bearer: []
  *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
  *      '200':
  *        description: "status: Access | data"
  *        schema:
  *          $ref: "#/definitions/ClassMembers"
- *      '601':
+ */
+
+/**
+ * @swagger
+ * /api/classes/member/:ClassID/check:
+ *  post:
+ *    tags: 
+ *    - "User Server"
+ *    summary: "Check if a member can be added to the class"
+ *    description: Check if a member can be added to the class 
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "ClassID"
+ *      description: "Type ClassID"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          ClassID:
+ *            type: string
+ *            default: "ClassID"
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Email of the member"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          Email:
+ *            type: string
+ *            default: "kha1@gmail.com"
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | message: This student can be added to the class!"
+ *      '601 Not student':
+ *        description: "status: Error Handle | message: This email is not owned by a student!"
+ *      '601 Already In':
+ *        description: "status: Unauthorized | message: This student is already in this class!"
+ *      '601 Invalid Email':
+ *        description: "status: Unauthorized | message: Invalid Email of Student!"
  */
-
 
 /**
  * @swagger
@@ -161,24 +167,28 @@
  *            default: "ClassID"
  *    - in: "body"
  *      name: "body"
- *      description: "UserID of the new member"
+ *      description: "Array of email of the new member"
  *      required: true
  *      schema:
  *        properties:
- *          UserID:
- *            type: string
- *            default: "UserID"
+ *          Email:
+ *            type: array
+ *            default: [kha1@gmail.com, kha2@gmail.com]
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | data (info of new members)"
+ *        schema:
+ *          $ref: "#/definitions/ClassMembers"
  */
 
 /**
@@ -210,19 +220,21 @@
  *      schema:
  *        properties:
  *          UserID:
- *            type: string
- *            default: "UserID"
+ *            type: array
+ *            default: [501, 502]
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */
 
 /**
@@ -250,14 +262,16 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */
 
 /**
@@ -294,14 +308,16 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */
 
 /**
@@ -329,12 +345,14 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
  *      '403':
  *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access"
  */

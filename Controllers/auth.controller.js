@@ -62,6 +62,8 @@
  *    responses:
  *      '200':
  *        description: "status: Access"
- *      '601':
+ *      '601 Username Existed':
  *        description: "status: Error Handle | message: Username Existed!"
+ *      '601 Email is taken':
+ *        description: "status: Error Handle | message: Email is already taken!"
  */

@@ -18,16 +18,14 @@
  *    security:
  *    - Bearer: []
  *    responses:
- *      '200':
- *        description: "status: Access | data"
- *        schema:
- *          $ref: "#/definitions/UserLogin"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200 Access':
+ *        description: "status: Access | data"
  */
 
 /**
@@ -76,12 +74,54 @@
  *            type: string
  *            default: "https://robohash.org/reprehenderitetdolorum.png?size=400x400&set=set1"
  *    responses:
- *      '200':
- *        description: "status: Access"
- *      '601':
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
  *        description: "status: Error Handle | message: Error Token"
- *      '401':
+ *      '401 Unauthorized':
  *        description: "status: Unauthorized | message: Unauthorized"
- *      '403':
- *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200 Access':
+ *        description: "status: Access"
+ *      '601 Email is taken':
+ *        description: "status: Error Handle | message: Email is already taken by the other user!"
+ */
+
+/**
+ * @swagger
+ * /api/profile/password:
+ *  post:
+ *    tags: 
+ *    - "Auth Server"
+ *    summary: "Change password of my account"
+ *    description: Change password of my account
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    security:
+ *    - Bearer: []
+ *    parameters:
+ *    - in: "body"
+ *      name: "body"
+ *      description: "Old password and New password"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          OldPassword:
+ *            type: string
+ *            default: "oldpassword"
+ *          NewPassword:
+ *            type: string
+ *            default: "newpassword"
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200 Access':
+ *        description: "status: Access"
+ *      '601 Password is incorrect':
+ *        description: "status: Error Handle | message: Password is incorrect"
  */
