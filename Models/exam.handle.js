@@ -70,5 +70,26 @@ module.exports = {
         return ExcuteSQL(`
             SELECT ExamID, ExamName, TimeBegin, TimeEnd, Duration FROM tb_Exam WHERE ExamID = ${ExamID}
         `)
+    },
+    createExam: function(exam) {
+        var query = `INSERT INTO tb_Exam VALUES \n`
+        + `(N'${exam.ExamName}', '${exam.TimeBegin}', '${exam.TimeEnd}', ${exam.Duration}, NULL)\n`
+        + `DECLARE @ExamID INT\n`
+        + `SELECT @ExamID = ExamID FROM tb_Exam WHERE\n`
+        + `ExamName = N'${exam.ExamName}' AND TimeBegin = '${exam.TimeBegin}' AND TimeEnd = '${exam.TimeEnd}' AND Duration = ${exam.Duration}`
+        + `INSERT INTO tb_ExamOfClass VALUES`;
+        exam.ClassID.map((value, index) => {
+            if (index < exam.ClassID.length - 1) 
+                query += `(${value}, @ExamID),\n`
+            else query += `(${value}, @ExamID)\n`
+        })
+        query += `INSERT INTO tb_QuestionOfExam VALUES\n`;
+        exam.QuestionID.map((value, index) => {
+            if (index < exam.ClassID.length - 1) 
+                query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END)),\n`
+            else query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
+        })
+        query += `SELECT @ExamID as ExamID`;
+        return ExcuteSQL(query);
     }
 }
