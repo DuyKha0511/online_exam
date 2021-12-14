@@ -123,4 +123,34 @@ router.get('/lib/:LibraryFolderID', middleware.verifyToken, middleware.checkRole
     });
 })
 
+router.put('/lib/:LibraryFolderID', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
+    const LibraryFolderID = req.params.LibraryFolderID;
+    const QuestionData = req.body;
+    console.log(`api/questions/lib/${LibraryFolderID} create question called!!!!`);
+    questionHandle.checkQuestion(QuestionData, LibraryFolderID).then((results) => {
+        if (results.recordsets[0].length === 1) 
+            res.json({status: status.Error, message: "This question data is existed in this library! These properties are all the same as the existed one!"});
+        else {
+            try {
+                if (QuestionData.Solution.length === 0) 
+                    res.json({status: status.Error, message: "The question must be contained at least 1 solution!"})
+                else
+                    questionHandle.createQuestion(QuestionData, LibraryFolderID).then((id) => {
+                        res.json({status: status.Access, data: id.recordset[0]});
+                    });
+            }
+            catch {
+                res.json({status: status.Error, message: "The question must be contained at least 1 solution!"})
+            }
+        }
+    });
+});
+
+router.delete('/', middleware.verifyToken, middleware.checkRole_Update, (req, res) => {
+    console.log(`api/questions/ delete question called!!!!`);
+    questionHandle.deleteQuestion(req.body.QuestionID).then(() => {
+        res.json({status: status.Access});
+    })
+});
+
 module.exports = router;
