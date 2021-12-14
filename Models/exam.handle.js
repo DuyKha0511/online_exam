@@ -57,7 +57,18 @@ module.exports = {
             WHERE CM.UserID = ${UserID}
             ORDER BY C.ClassID
         `);
+    },
+    getQuestionsOfExam: function(ExamID) {
+        return ExcuteSQL(`
+            SELECT Q.*, S.SolutionID, S.Solution, S.Correct FROM tb_QuestionOfExam AS QE
+            JOIN tb_Question AS  Q ON QE.QuestionID = Q.QuestionID
+            JOIN tb_Solution AS S ON Q.QuestionID = S.QuestionID
+            WHERE QE.ExamID = ${ExamID}
+        `)
+    },
+    getExamByID: function(ExamID) {
+        return ExcuteSQL(`
+            SELECT ExamID, ExamName, TimeBegin, TimeEnd, Duration FROM tb_Exam WHERE ExamID = ${ExamID}
+        `)
     }
 }
-
-
