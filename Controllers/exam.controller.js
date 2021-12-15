@@ -83,7 +83,7 @@ router.get('/:ExamID', middleware.verifyToken, middleware.checkRole_Review, (req
     });
 });
 
-router.put('', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
+router.post('', middleware.verifyToken, middleware.checkRole_Create, (req, res) => {
     console.log(`api/exams/ create exam called!!!`);
     examHandle.createExam(req.body).then((results) => {
         res.json({status: status.Access, data: results.recordset[0]})
