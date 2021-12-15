@@ -76,19 +76,13 @@ module.exports = {
         + `(N'${exam.ExamName}', '${exam.TimeBegin}', '${exam.TimeEnd}', ${exam.Duration}, NULL)\n`
         + `DECLARE @ExamID INT\n`
         + `SELECT @ExamID = ExamID FROM tb_Exam WHERE\n`
-        + `ExamName = N'${exam.ExamName}' AND TimeBegin = '${exam.TimeBegin}' AND TimeEnd = '${exam.TimeEnd}' AND Duration = ${exam.Duration}\n`
-        + `INSERT INTO tb_ExamOfClass VALUES\n`;
-        exam.ClassID.map((value, index) => {
-            if (index < exam.ClassID.length - 1) 
-                query += `(${value}, @ExamID),\n`
-            else query += `(${value}, @ExamID)\n`
+        + `ExamName = N'${exam.ExamName}' AND TimeBegin = '${exam.TimeBegin}' AND TimeEnd = '${exam.TimeEnd}' AND Duration = ${exam.Duration}\n`;
+        exam.ClassID.map((value) => {
+            query += `INSERT INTO tb_ExamOfClass VALUES (${value}, @ExamID)\n`
         })
-        query += `INSERT INTO tb_QuestionOfExam VALUES\n`;
-        exam.QuestionID.map((value, index) => {
-            if (index < exam.QuestionID.length - 1) 
-                query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END)),\n`
-            else query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
-        })
+        exam.QuestionID.map((value) => {
+            query += `INSERT INTO tb_QuestionOfExam VALUES (@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
+        });
         query += `SELECT @ExamID as ExamID`;
         return ExcuteSQL(query);
     },
@@ -99,5 +93,20 @@ module.exports = {
             +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
             +   `DELETE FROM tb_Exam WHERE ExamID = ${ExamID}\n`
         );
+    },
+    updateExam: function(ExamID, exam) {
+        var query = `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
+        +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
+        +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`;
+        exam.ClassID.map((value) => {
+            query += `INSERT INTO tb_ExamOfClass VALUES (${value}, ${ExamID})\n`
+        })
+        exam.QuestionID.map((value) => {
+            query += `INSERT INTO tb_QuestionOfExam VALUES (${ExamID}, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
+        });
+        query += `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
+        +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
+        +   `WHERE ExamID = ${ExamID}`;
+        return ExcuteSQL(query);
     }
 }
