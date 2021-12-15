@@ -35,8 +35,16 @@ function checkRole_ViewInfo(req, res, next) {
     });
 }
 
-function checkRole_Create(req, res, next) {
+function checkRole_Review(req, res, next) {
     const view_type = 2;
+    roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
+        if (role.recordset[0].Enable >= view_type) next();
+        else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
+    });
+}
+
+function checkRole_Create(req, res, next) {
+    const view_type = 3;
     roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
         if (role.recordset[0].Enable >= view_type) next();
         else res.json({status: status.Forbidden, message: `As a ${role.recordset[0].RoleName}, you cannot access this function!`});
@@ -44,21 +52,12 @@ function checkRole_Create(req, res, next) {
 }
 
 function checkRole_Update(req, res, next) {
-    const view_type = 3;
-    roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
-        if (role.recordset[0].Enable >= view_type) next();
-        else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
-    });
-}
-
-function checkRole_Review(req, res, next) {
     const view_type = 4;
     roleHandle.getRole(req.UserID, class_GroupFunction).then(function(role) {
         if (role.recordset[0].Enable >= view_type) next();
         else res.json({status: status.Forbidden, message: `As a ${role.recordsets[0][0].RoleName}, you cannot access this function!`});
     });
 }
-
 
 module.exports = {
     verifyToken, 
