@@ -76,8 +76,8 @@ module.exports = {
         + `(N'${exam.ExamName}', '${exam.TimeBegin}', '${exam.TimeEnd}', ${exam.Duration}, NULL)\n`
         + `DECLARE @ExamID INT\n`
         + `SELECT @ExamID = ExamID FROM tb_Exam WHERE\n`
-        + `ExamName = N'${exam.ExamName}' AND TimeBegin = '${exam.TimeBegin}' AND TimeEnd = '${exam.TimeEnd}' AND Duration = ${exam.Duration}`
-        + `INSERT INTO tb_ExamOfClass VALUES`;
+        + `ExamName = N'${exam.ExamName}' AND TimeBegin = '${exam.TimeBegin}' AND TimeEnd = '${exam.TimeEnd}' AND Duration = ${exam.Duration}\n`
+        + `INSERT INTO tb_ExamOfClass VALUES\n`;
         exam.ClassID.map((value, index) => {
             if (index < exam.ClassID.length - 1) 
                 query += `(${value}, @ExamID),\n`
@@ -85,11 +85,19 @@ module.exports = {
         })
         query += `INSERT INTO tb_QuestionOfExam VALUES\n`;
         exam.QuestionID.map((value, index) => {
-            if (index < exam.ClassID.length - 1) 
+            if (index < exam.QuestionID.length - 1) 
                 query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END)),\n`
             else query += `(@ExamID, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
         })
         query += `SELECT @ExamID as ExamID`;
         return ExcuteSQL(query);
+    },
+    deleteExam: function(ExamID) {
+        return ExcuteSQL(
+                `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`
+            +   `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
+            +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
+            +   `DELETE FROM tb_Exam WHERE ExamID = ${ExamID}\n`
+        );
     }
 }
