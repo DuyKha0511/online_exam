@@ -87,24 +87,31 @@ module.exports = {
         return ExcuteSQL(query);
     },
     deleteExam: function(ExamID) {
-        return ExcuteSQL(
-                `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`
-            +   `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
-            +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
-            +   `DELETE FROM tb_Exam WHERE ExamID = ${ExamID}\n`
-        );
+        var query = `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID} AND UserID IN \n`
+        +   `(SELECT UserID FROM tb_ClassMember WHERE ClassID = ${ClassID})\n`
+        +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID} AND ClassID = ${ClassID}`
+        // return ExcuteSQL(
+        //         `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`
+        //     +   `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
+        //     +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
+        //     +   `DELETE FROM tb_Exam WHERE ExamID = ${ExamID}\n`
+        // );
+        return ExcuteSQL(query);
     },
     updateExam: function(ExamID, exam) {
-        var query = `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
-        +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
-        +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`;
-        exam.ClassID.map((value) => {
-            query += `INSERT INTO tb_ExamOfClass VALUES (${value}, ${ExamID})\n`
-        })
-        exam.QuestionID.map((value) => {
-            query += `INSERT INTO tb_QuestionOfExam VALUES (${ExamID}, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
-        });
-        query += `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
+        // var query = `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
+        // +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
+        // +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`;
+        // exam.ClassID.map((value) => {
+        //     query += `INSERT INTO tb_ExamOfClass VALUES (${value}, ${ExamID})\n`
+        // })
+        // exam.QuestionID.map((value) => {
+        //     query += `INSERT INTO tb_QuestionOfExam VALUES (${ExamID}, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
+        // });
+        // query += `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
+        // +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
+        // +   `WHERE ExamID = ${ExamID}`;
+        var query = `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
         +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
         +   `WHERE ExamID = ${ExamID}`;
         return ExcuteSQL(query);
