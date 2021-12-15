@@ -90,4 +90,11 @@ router.put('/', middleware.verifyToken, middleware.checkRole_Create, (req, res) 
     });
 });
 
+router.delete('/:ExamID', middleware.verifyToken, middleware.checkRole_Update, (req, res) => {
+    console.log(`api/exams/${req.params.ExamID} delete exam called!!!`);
+    examHandle.deleteExam(req.params.ExamID).then(() => {
+        res.json({status: status.Access});
+    })
+});
+
 module.exports = router;
