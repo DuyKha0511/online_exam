@@ -97,4 +97,11 @@ router.delete('/:ExamID', middleware.verifyToken, middleware.checkRole_Update, (
     })
 });
 
+router.post('/:ExamID', middleware.verifyToken, middleware.checkRole_Update, (req, res) => {
+    console.log(`api/exams/${req.params.ExamID} update exam called!!!`);
+    examHandle.updateExam(req.params.ExamID, req.body).then(() => {
+        res.json({status: status.Access});
+    })
+});
+
 module.exports = router;
