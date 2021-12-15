@@ -54,7 +54,7 @@ module.exports = {
             UPDATE tb_LibraryFolder SET 
             LibraryFolderName = N'${newInfo.LibraryFolderName}', 
             Description = N'${newInfo.Description}',
-            UpdatedDate = DATEADD(hh, 1, GETDATE()),
+            UpdatedDate = DATEADD(hh, 7, GETUTCDATE()),
             Avatar = '${newInfo.Avatar}'
             WHERE LibraryFolderID = ${LibraryFolderID}
         `);
@@ -62,8 +62,8 @@ module.exports = {
     insertLibraryFolder: function(UserID, newInfo) {
         return ExcuteSQL(`
             INSERT INTO tb_LibraryFolder VALUES
-            (N'${newInfo.LibraryFolderName}', N'${newInfo.Description}', DATEADD(hh, 1, GETDATE()), 
-            DATEADD(hh, 1, GETDATE()), ${UserID}, '${newInfo.Avatar}')
+            (N'${newInfo.LibraryFolderName}', N'${newInfo.Description}', DATEADD(hh, 7, GETUTCDATE()), 
+            DATEADD(hh, 7, GETUTCDATE()), ${UserID}, '${newInfo.Avatar}')
         `);
     },
     deleteLibraryFolder: function(LibraryFolderID) {
