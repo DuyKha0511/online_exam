@@ -115,6 +115,46 @@
 
 /**
  * @swagger
+ * /api/question/:QuestionID:
+ *  post:
+ *    tags: 
+ *    - "Question Server"
+ *    summary: "Update data of a question"
+ *    description: Update data of a question
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "QuestionID"
+ *      description: "QuestionID of this question"
+ *      required: true
+ *    - in: "body"
+ *      name: "body"
+ *      description: "New data question"
+ *      required: true
+ *      schema:
+ *        $ref: "#/definitions/NewQuestion"          
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access"
+ *      '601 Error Solution':
+ *        description: "status: Error Handle | message: The question must be contained at least 1 solution!"
+ */
+
+/**
+ * @swagger
  * /api/question/:questionID/solution:
  *  get:
  *    tags: 
