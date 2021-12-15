@@ -1,7 +1,6 @@
 const questionHandle = require('../Models/question.handle');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
 const middleware = require('../_Middleware/question.middleware');
 
@@ -152,5 +151,22 @@ router.delete('/', middleware.verifyToken, middleware.checkRole_Update, (req, re
         res.json({status: status.Access});
     })
 });
+
+router.post('/:questionID', middleware.verifyToken, middleware.checkRole_Update, (req, res) => {
+    var questionID = req.params.questionID;
+    const QuestionData = req.body;
+    console.log(`api/questions/${questionID} update question called!!!!`);
+    try {
+        if (QuestionData.Solution.length === 0) 
+            res.json({status: status.Error, message: "The question must be contained at least 1 solution!"})
+        else
+            questionHandle.updateQuestion(questionID, QuestionData).then((results) => {
+                res.json({status: status.Access});
+            });
+    }
+    catch {
+        res.json({status: status.Error, message: "The question must be contained at least 1 solution!"})
+    }
+})
 
 module.exports = router;
