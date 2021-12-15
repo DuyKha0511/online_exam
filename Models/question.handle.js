@@ -73,5 +73,19 @@ module.exports = {
             else  query += `${value})`
         });
         return ExcuteSQL(`DELETE FROM tb_Question WHERE QuestionID IN ${query}`);
+    },
+    updateQuestion: function(questionID, QuestionData) {
+        var query = `UPDATE tb_Question SET \n`
+        + `Question = N'${QuestionData.Question}',\n`
+        + `Type = '${QuestionData.Type}', Level = '${QuestionData.Level}'\n`
+        + `WHERE QuestionID = ${questionID}\n`
+        + `DELETE FROM tb_Solution WHERE QuestionID = ${questionID}\n`
+        + `INSERT INTO tb_Solution VALUES\n`;
+        QuestionData.Solution.map((value, index) => {
+            if (index < QuestionData.Solution.length - 1)
+                query += `(N'${value.Solution}', ${value.Correct ? 1 : 0}, ${questionID}),\n`
+            else query += `(N'${value.Solution}', ${value.Correct ? 1 : 0}, ${questionID})`
+        });
+        return ExcuteSQL(query);
     }
 }
