@@ -115,5 +115,14 @@ module.exports = {
         +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
         +   `WHERE ExamID = ${ExamID}`;
         return ExcuteSQL(query);
+    },
+    getClassByExamAndUser: function(ExamID, UserID) {
+        return ExcuteSQL(`
+            SELECT ClassID, ClassName FROM tb_Class WHERE ClassID =
+            (SELECT ClassID FROM tb_ClassMember
+            WHERE UserID = ${UserID}
+            INTERSECT 
+            SELECT ClassID FROM tb_ExamOfClass WHERE ExamID = ${ExamID})
+        `);
     }
 }
