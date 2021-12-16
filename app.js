@@ -23,6 +23,7 @@ app.use(function(req, res, next) {
 
 
 app.use('/api/exams', require('./Controllers/exam.controller'));
+app.use('/api/results', require('./Controllers/results.controller'));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));

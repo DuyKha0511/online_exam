@@ -89,7 +89,7 @@ module.exports = {
         return ExcuteSQL(query);
     },
     deleteExamInClass: function(ExamID, ClassID) {
-        var query = `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID} AND UserID IN \n`
+        query = `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID} AND UserID IN \n`
         +   `(SELECT UserID FROM tb_ClassMember WHERE ClassID = ${ClassID})\n`
         +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID} AND ClassID = ${ClassID}`
         // return ExcuteSQL(
