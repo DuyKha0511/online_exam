@@ -43,19 +43,21 @@ module.exports = {
     },
     getExamsOfAStudent: function(UserID) {
         return ExcuteSQL(`
-            SELECT C.ClassID, C.ClassName, U.UserID AS TeacherID, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname,
-            E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration, Q.TotalQuestions
+            SELECT DISTINCT C.ClassID, C.ClassName, U.UserID AS TeacherID, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname,
+            E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration, Q.TotalQuestions, 
+            (CASE WHEN TE.Mark = -1 THEN 'NotDone' ELSE 'Done' END)  AS 'DoingFlag'
             FROM tb_ClassMember AS CM
             JOIN tb_Class AS C ON CM.ClassID = C.ClassID
             JOIN tb_User AS U ON U.UserID = C.UserID
             JOIN tb_ExamOfClass AS EC ON EC.ClassID = C.ClassID
             JOIN tb_Exam AS E ON E.ExamID = EC.ExamID
+            JOIN tb_TakeExam AS TE ON TE.ExamID = E.ExamID
             JOIN 
             (SELECT ExamID, COUNT(*) AS TotalQuestions FROM tb_QuestionOfExam
             GROUP BY ExamID) AS Q
             ON E.ExamID = Q.ExamID
             WHERE CM.UserID = ${UserID}
-            ORDER BY C.ClassID
+            ORDER BY E.ExamID ASC
         `);
     },
     getQuestionsOfExam: function(ExamID) {
