@@ -11,7 +11,7 @@ router.get('/student/', middleware.verifyToken, middleware.checkRole_View, (req,
     });
 });
 
-router.get('/:ExamID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+router.get('/student/:ExamID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     const ExamID = req.params.ExamID;
     console.log(`api/results/student/${ExamID} view exam has been done called!!!`);
     resultsHandle.viewDoneExamByStudent(req.UserID, ExamID).then((results) => {
