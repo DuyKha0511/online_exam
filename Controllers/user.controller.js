@@ -1,33 +1,24 @@
 const userHandle = require('../Models/user.handle');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
+const middleware = require('../_Middleware/user.middleware');
 
 
-function verifyToken(req, res, next) {
-    const authorizationHeader = req.headers['authorization'];
-    // 'Bear [token]'
-    const token = authorizationHeader.split(' ')[1];
-    if (!token) res.json({status: status.Unauthorized});
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
-        if (err) res.json({status: status.Forbidden});
-        next();
-    })
-}
-
-router.get('/', verifyToken, (req, res) => {
+router.get('/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     console.log('api/users called!!!!');
-    userHandle.getAll().then(function(value) {
-        res.json({status: status.Access, data: value.recordsets[0]});
+    userHandle.getAll().then(function(user) {
+        user.recordsets[0].map((value) => {
+            value.Password = ''
+        });
+        res.json({status: status.Access, data: user.recordsets[0]});
     });
 })
 
-router.get('/:username', verifyToken, (req, res) => {
-    var username = req.params.username;
-    console.log(`api/users/${username} called!!!!`);
-    userHandle.getByUsername(username).then(function(user) {
+router.get('/:UserID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    var UserID = req.params.UserID;
+    console.log(`api/users/${UserID} called!!!!`);
+    userHandle.getByUserID(UserID).then(function(user) {
         res.json({status: status.Access, data: user.recordsets[0]});
     });
 })
