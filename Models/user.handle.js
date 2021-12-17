@@ -18,7 +18,9 @@ function ExcuteSQL(query) {
 module.exports = {
     getAll: function() {
         return ExcuteSQL(`
-            SELECT * FROM tb_User
+            SELECT U.*, R.* FROM tb_User as U
+            join tb_RoleOfUser as RU on U.UserID = RU.UserID
+            join tb_Role as R on R.RoleID = RU.RoleID
         `)
     },
     getByUserID: function(UserID) {
