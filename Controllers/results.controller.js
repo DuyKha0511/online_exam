@@ -80,4 +80,27 @@ router.get('/student/:ExamID', middleware.verifyToken, middleware.checkRole_View
     });
 });
 
+router.post('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    const ClassID = req.body.ClassID;
+    const ExamID = req.body.ExamID;
+    console.log(`api/results/teacher/ view class ${ClassID} results exam ${ExamID} called!!!`);
+    resultsHandle.getResultsOfExamInClassByTeacher(req.UserID, ClassID, ExamID).then((results) => {
+        var data = {};
+        data.ClassID = results.recordset[0].ClassID;
+        data.ClassName = results.recordset[0].ClassName;
+        data.ExamID = results.recordset[0].ExamID;
+        data.ExamName = results.recordset[0].ExamName;
+        data.TotalSubmissions = results.recordset[0].TotalSubmissions;
+        results.recordset.map((recordset) => {
+            delete recordset.ClassID;
+            delete recordset.ClassName;
+            delete recordset.ExamID;
+            delete recordset.ExamName;
+            delete recordset.TotalSubmissions;
+        })
+        data.Students = results.recordset;
+        res.json({status: status.Access, data: data});
+    });
+});
+
 module.exports = router;
