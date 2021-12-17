@@ -73,7 +73,8 @@ router.get('/student/:ExamID', middleware.verifyToken, middleware.checkRole_View
             data.Questions = listQuestions;
             res.json({status: status.Access, data: data});
         }
-        catch {
+        catch (error) {
+            console.log(error);
             res.json({status: status.Error, message: "Not submitted"});
         }
     });
