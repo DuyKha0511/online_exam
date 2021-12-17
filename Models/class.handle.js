@@ -17,7 +17,12 @@ function ExcuteSQL(query) {
 
 module.exports = {
     getAllClasses: function() {
-        return ExcuteSQL(`SELECT * FROM tb_Class`);
+        return ExcuteSQL(`
+            SELECT C.ClassID, C.ClassName, C.UserID AS 'TeacherID', CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname,
+            [dbo].CheckIfClassHasMember(C.ClassID) AS TotalStudents
+            FROM tb_Class AS C
+            JOIN tb_User AS U ON C.UserID = U.UserID
+        `);
     },
     createClass: function(TeacherID, ClassName) {
         return ExcuteSQL(`
