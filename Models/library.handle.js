@@ -16,6 +16,13 @@ function ExcuteSQL(query) {
 }
 
 module.exports = {
+    getAll: function() {
+        return ExcuteSQL(`
+            SELECT LF.*, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname
+            FROM tb_LibraryFolder AS LF
+            JOIN tb_User AS U ON LF.UserID = U.UserID
+        `);
+    },
     getLibrariesByUserID: function(UserID) {
         return ExcuteSQL(`
             SELECT Lib.*, Num.TotalQuestions FROM tb_LibraryFolder AS Lib
