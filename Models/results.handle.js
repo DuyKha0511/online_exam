@@ -46,5 +46,20 @@ module.exports = {
             JOIN tb_Solution AS S ON S.QuestionID = Q.QuestionID
             WHERE A.TakeExamID = (SELECT TakeExamID FROM tb_TakeExam WHERE UserID = ${UserID} AND ExamID = ${ExamID})
         `)
-    }
+    },
+    getResultsOfExamInClassByTeacher: function(UserID, ClassID, ExamID) {
+        return ExcuteSQL(`
+            SELECT DISTINCT C.ClassID, C.ClassName, E.ExamID, E.ExamName, [dbo].GetSubmissionNumber(C.ClassID, E.ExamID) AS TotalSubmissions,
+            U.UserID, U.Firstname, U.Lastname,
+            TE.Feedback, TE.Mark, TE.Accept, TE.TimeSubmit, TE.Duration, TE.DoingTime, TE.CorrectNumber
+            FROM tb_ClassMember AS CM
+            JOIN tb_Class AS C ON CM.ClassID = C.ClassID
+            JOIN tb_User AS U ON CM.UserID = U.UserID
+            JOIN tb_ExamOfClass AS EC ON EC.ClassID = C.ClassID
+            JOIN tb_Exam AS E ON E.ExamID = EC.ExamID
+            JOIN tb_TakeExam AS TE ON TE.UserID = CM.UserID AND TE.ExamID = E.ExamID
+            WHERE C.UserID = ${UserID} AND C.ClassID = ${ClassID} AND E.ExamID = ${ExamID}
+            ORDER BY E.ExamID
+        `);
+    } 
 }
