@@ -18,8 +18,8 @@ function ExcuteSQL(query) {
 module.exports = {
     getResultsOfStudent: function (UserID) {
         return ExcuteSQL(`
-            SELECT DISTINCT C.ClassID, C.ClassName, U.UserID AS TeacherID, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname,
-            E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration, Q.TotalQuestions, TE.TimeSubmit, TE.DoingTime, TE.Mark, TE.Accept
+            SELECT DISTINCT TE.TakeExamID, C.ClassID, C.ClassName, U.UserID AS TeacherID, CONCAT(U.Firstname, ' ', U.Lastname) AS TeacherFullname,
+            E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration, TE.CorrectNumber, Q.TotalQuestions, TE.TimeSubmit, TE.DoingTime, TE.Mark, TE.Accept
             FROM tb_ClassMember AS CM
             JOIN tb_Class AS C ON CM.ClassID = C.ClassID
             JOIN tb_User AS U ON U.UserID = C.UserID

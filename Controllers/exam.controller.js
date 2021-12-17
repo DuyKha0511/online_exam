@@ -188,4 +188,70 @@ router.get('/do-exam/:ExamID', middleware.verifyToken, middleware.checkRole_View
     });
 });
 
+router.post('/do-exam/submit/', middleware.verifyToken, middleware.checkRole_ViewInfo, (req, res) => {
+    console.log(`api/exams/do-exam/submit exam called!!!!`);
+    const submit_exam = {};
+    submit_exam.ExamID = req.body.ExamID;
+    submit_exam.ClassID = req.body.ClassID;
+    submit_exam.UserID = req.UserID;
+    submit_exam.DoingTime = req.body.DoingTime ? req.body.DoingTime : null;
+    var solutions = [];
+    var questionIDs = [];
+    var essayID = 0;
+    req.body.Questions.map((question) => {
+        var choice_flag = false;
+        question.Solution.map((solution) => {
+            if (solution.Correct) {
+                choice_flag = true;
+                solutions.push({QuestionID: question.QuestionID, Answer: solution.Solution})
+            }
+        })
+        if (!choice_flag) {
+            solutions.push({QuestionID: question.QuestionID, Answer: ''})
+        }
+        if (question.Type !== 'Essay') questionIDs.push(question.QuestionID);
+        else essayID = question.QuestionID;
+    });
+    submit_exam.Solutions = solutions;
+    examHandle.getSolutions(questionIDs).then((sols) => {
+        var total_nums = 0;
+        questionIDs.map((id) => {
+            var correctNums = 0;
+            var correctSolution = [];
+            var type = '';
+            sols.recordset.filter(s => s.QuestionID === id && s.Correct === true).map((value) => {
+                type = value.Type;
+                correctSolution.push(value.Solution);
+            });
+            solutions.filter(s => s.QuestionID === id).map((value) => {
+                if (type === 'Multiple Choices') {
+                    if (correctSolution.includes(value.Answer)) {
+                        correctNums++;
+                    }
+                    else {
+                        correctNums--;
+                        correctNums = correctNums < 0 ? 0 : correctNums;
+                    }
+                }
+                else {
+                    if (correctSolution.includes(value.Answer)) {
+                        correctNums++;
+                    }
+                }
+            });
+            total_nums += correctNums/correctSolution.length;
+        });
+        examHandle.getEssayMark(req.body.ExamID, essayID).then((essay) => {
+            var mark = (10 - essay.recordset[0].MaxEssay)*total_nums/questionIDs.length;
+            submit_exam.Mark = mark;
+            submit_exam.CorrectNumber = total_nums;
+            //console.log(submit_exam);
+            examHandle.submitExam(submit_exam).then(() => {
+                delete submit_exam.Solutions;
+                res.json({status: status.Access, data: submit_exam});
+            })
+        })
+    });
+});
+
 module.exports = router;

@@ -126,5 +126,37 @@ module.exports = {
             INTERSECT 
             SELECT ClassID FROM tb_ExamOfClass WHERE ExamID = ${ExamID})
         `);
+    },
+    getQuestionsOfExamID: function(ExamID) {
+        return ExcuteSQL(`SELECT QuestionOfExamID, QuestionID FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}`);
+    },
+    submitExam: function(submit_exam) {
+        var query = `INSERT INTO tb_TakeExam VALUES\n`
+        + `(${submit_exam.UserID}, ${submit_exam.ClassID}, '', ${submit_exam.Mark}, 0, DATEADD(hh, 7, GETUTCDATE()), NULL, ${submit_exam.DoingTime}, ${submit_exam.CorrectNumber})\n`
+        + `DECLARE @TakeExamID INT \n`
+        + `SELECT @TakeExamID = TakeExamID FROM tb_TakeExam WHERE UserId = ${submit_exam.UserID} AND ExamID = ${submit_exam.ClassID}\n`;
+        return ExcuteSQL(`SELECT QuestionOfExamID, QuestionID FROM tb_QuestionOfExam WHERE ExamID = ${submit_exam.ExamID}`).then((qeIDs) => {
+            submit_exam.Solutions.map((solution) => {
+                var qeID = qeIDs.recordset.filter(s => s.QuestionID === solution.QuestionID)[0].QuestionOfExamID;
+                query += `INSERT INTO tb_Answersheet VALUES (${qeID}, @TakeExamID, N'${solution.Answer}')\n`;
+            });
+            ExcuteSQL(query);
+        })
+    },
+    getSolutions: function(QuestionIDs) {
+        var query_questionIDs = `(`;
+        QuestionIDs.map((ID, index) => {
+            if (index < QuestionIDs.length - 1) 
+                query_questionIDs += `${ID}, `;
+            else query_questionIDs += `${ID})`;
+        });
+        return ExcuteSQL(`
+            SELECT * FROM tb_Solution WHERE QuestionID in ${query_questionIDs}
+        `);
+    },
+    getEssayMark: function(ExamID, QuestionID) {
+        return ExcuteSQL(`
+            SELECT MaxEssay FROM tb_QuestionOfExam WHERE ExamID = ${ExamID} AND QuestionID = ${QuestionID}
+        `)
     }
 }

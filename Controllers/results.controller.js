@@ -32,7 +32,7 @@ router.get('/:ExamID', middleware.verifyToken, middleware.checkRole_View, (req, 
                     Type: results.recordset[0].Type,
                     Level: results.recordset[0].Level,
                     MaxEssay: results.recordset[0].MaxEssay,
-                    Answer: results.recordset[0].Answer,
+                    Answer: data.Accept ? results.recordset[0].Answer : null
                 }
                 var Solution = [{
                     SolutionID: results.recordset[0].SolutionID, 
@@ -63,7 +63,7 @@ router.get('/:ExamID', middleware.verifyToken, middleware.checkRole_View, (req, 
                             Type: results.recordset[i].Type,
                             Level: results.recordset[i].Level,
                             MaxEssay: results.recordset[i].MaxEssay,
-                            Answer: results.recordset[i].Answer,
+                            Answer: data.Accept ? results.recordset[i].Answer : null
                         }
                     }
                 }
