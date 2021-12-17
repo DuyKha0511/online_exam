@@ -33,5 +33,18 @@ module.exports = {
             WHERE CM.UserID = ${UserID}
             ORDER BY E.ExamID ASC
         `);
+    },
+    viewDoneExamByStudent: function(UserID, ExamID) {
+        return ExcuteSQL(`
+            SELECT A.*, TE.Mark, TE.Accept, QE.ExamID, E.ExamName, E.Duration,
+            QE.QuestionID, Q.Question, Q.Type, Q.Level, QE.MaxEssay, S.SolutionID, S.Solution, S.Correct
+            FROM tb_Answersheet AS A
+            JOIN tb_QuestionOfExam AS QE ON A.QuestionOfExamID = QE.QuestionOfExamID
+            JOIN tb_TakeExam AS TE ON TE.TakeExamID = A.TakeExamID
+            JOIN tb_Exam AS E ON QE.ExamID = E.ExamID
+            JOIN tb_Question AS Q ON Q.QuestionID = QE.QuestionID
+            JOIN tb_Solution AS S ON S.QuestionID = Q.QuestionID
+            WHERE A.TakeExamID = (SELECT TakeExamID FROM tb_TakeExam WHERE UserID = ${UserID} AND ExamID = ${ExamID})
+        `)
     }
 }
