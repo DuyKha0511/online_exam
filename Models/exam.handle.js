@@ -131,10 +131,12 @@ module.exports = {
         return ExcuteSQL(`SELECT QuestionOfExamID, QuestionID FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}`);
     },
     submitExam: function(submit_exam) {
-        var query = `INSERT INTO tb_TakeExam VALUES\n`
-        + `(${submit_exam.UserID}, ${submit_exam.ClassID}, '', ${submit_exam.Mark}, 0, DATEADD(hh, 7, GETUTCDATE()), NULL, ${submit_exam.DoingTime}, ${submit_exam.CorrectNumber})\n`
+        var query = `UPDATE tb_TakeExam SET\n`
+        + `Mark = ${submit_exam.Mark}, TimeSubmit = DATEADD(hh, 7, GETUTCDATE()),\n`
+        + `DoingTime = ${submit_exam.DoingTime}, CorrectNumber = ${submit_exam.CorrectNumber}\n`
+        + `WHERE UserID = ${submit_exam.UserID} AND ExamID = ${submit_exam.ExamID}\n`
         + `DECLARE @TakeExamID INT \n`
-        + `SELECT @TakeExamID = TakeExamID FROM tb_TakeExam WHERE UserId = ${submit_exam.UserID} AND ExamID = ${submit_exam.ClassID}\n`;
+        + `SELECT @TakeExamID = TakeExamID FROM tb_TakeExam WHERE UserId = ${submit_exam.UserID} AND ExamID = ${submit_exam.ExamID}\n`;
         return ExcuteSQL(`SELECT QuestionOfExamID, QuestionID FROM tb_QuestionOfExam WHERE ExamID = ${submit_exam.ExamID}`).then((qeIDs) => {
             submit_exam.Solutions.map((solution) => {
                 var qeID = qeIDs.recordset.filter(s => s.QuestionID === solution.QuestionID)[0].QuestionOfExamID;
