@@ -103,4 +103,11 @@ router.post('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req
     });
 });
 
+router.post('/teacher/confirm', middleware.verifyToken, middleware.checkRole_Confirm, (req, res) => {
+    console.log(`api/results/teacher/confirm called!!!`);
+    resultsHandle.confirmResults(req.body).then(() => {
+        res.json({status: status.Access})
+    })
+});
+
 module.exports = router;
