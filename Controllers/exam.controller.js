@@ -254,6 +254,7 @@ router.post('/do-exam/submit/', middleware.verifyToken, middleware.checkRole_Vie
             //console.log(submit_exam);
             examHandle.submitExam(submit_exam).then(() => {
                 delete submit_exam.Solutions;
+                submit_exam.TimeSubmit = new Date(new Date().getTime() + 7*3600000).toUTCString();
                 res.json({status: status.Access, data: submit_exam});
             })
         })
