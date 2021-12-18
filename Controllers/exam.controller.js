@@ -179,7 +179,203 @@
  *        description: "status: Access | data"
  *        schema:
  *          properties:
- *            Exam:
- *              type: string
+ *            ExamID:
+ *              type: int
  *              default: 501
+ */
+
+/**
+ * @swagger
+ * /api/exams/:ExamID:
+ *  post:
+ *    tags: 
+ *    - "Exam Server"
+ *    summary: "Update info of the exam that have not been time yet."
+ *    description: Update info of the exam that have not been time yet.
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "ExamID"
+ *      description: "ExamID"
+ *      required: true
+ *    - in: "body"
+ *      name: "body"
+ *      description: "New information"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          ExamName:
+ *            type: string
+ *            default: "Exam AI" 
+ *          TimeBegin:
+ *            type: string
+ *            default: "2021-12-15"  
+ *          TimeEnd:
+ *            type: string
+ *            default: "2021-12-26"  
+ *          Duration:
+ *            type: integer
+ *            default: 50
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access"
+ *      '601 In progress':
+ *        description: "status: Error Handle | message: The exam is in progress"
+ *      '601 Had done':
+ *        description: "status: Error Handle | message: The exam had been done"
+ */
+
+/**
+ * @swagger
+ * /api/exams/:ExamID:
+ *  delete:
+ *    tags: 
+ *    - "Exam Server"
+ *    summary: "Delete an exam in a class that has no submission."
+ *    description: Delete an exam in a class that has no submission.
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "ExamID"
+ *      description: "ExamID"
+ *      required: true
+ *    - in: "body"
+ *      name: "ClassID"
+ *      description: "ClassID"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          ClassID:
+ *            type: int
+ *            default: 50
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access"
+ *      '601 In progress':
+ *        description: "status: Error Handle | message: The exam is in progress"
+ *      '601 Had done':
+ *        description: "status: Error Handle | message: The exam had been done"
+ */
+
+/**
+ * @swagger
+ * /api/exams/do-exam/:ExamID:
+ *  get:
+ *    tags: 
+ *    - "Exam Server"
+ *    summary: "Get a preview of exam by a STUDENT so that can handle and submit after. (STUDENT)"
+ *    description: Get a preview of exam by a STUDENT so that can handle and submit after. (STUDENT)
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "ExamID"
+ *      description: "ExamID"
+ *      required: true
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          properties:
+ *            Response:
+ *              type:
+ *              default: https://onlxam.herokuapp.com/response-data-do-exam
+ */
+
+/**
+ * @swagger
+ * /api/exams/do-exam/submit:
+ *  get:
+ *    tags: 
+ *    - "Exam Server"
+ *    summary: "Submit the exam after handling (STUDENT)"
+ *    description: Submit the exam after handling (STUDENT)
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "body"
+ *      name: "Summitted Exam"
+ *      description: "Summitted Exam"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          body:
+ *            type:
+ *            default: https://onlxam.herokuapp.com/body-submitted-exam
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          properties:
+ *            ExamID:
+ *              type: integer
+ *              default: 82
+ *            ClassID:
+ *              type: integer
+ *              default: 138
+ *            UserID:
+ *              type: integer
+ *              default: 401
+ *            DoingTime:
+ *              type: integer
+ *              default: 20
+ *            Mark:
+ *              type: integer
+ *              default: 6.75
+ *            CorrectNumber:
+ *              type: integer
+ *              default: 5
+ *            TimeSubmit:
+ *              type: string
+ *              default: "2021-12-17"
  */

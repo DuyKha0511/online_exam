@@ -1,16 +1,18 @@
+const path = require('path');
+const gateway = require('express-gateway');
 const express = require('express'),
   app = express(),
   bodyParser = require("body-parser"),
-  port = process.env.PORT || 7777;
-const path = require('path');
-const http = require('http').createServer(app);
-const { createProxyMiddleware } = require('http-proxy-middleware');
+  port = process.env.PORT || 7776;
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-
+gateway()
+  .load(path.join(__dirname, 'config'))
+  .run();
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 //enable cors
 app.use(function(req, res, next) {
@@ -21,14 +23,9 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-app.use('/api/auth', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
-app.use('/api/profile', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
-app.use('/api/classes', createProxyMiddleware({ target: 'https://onlxam-u.herokuapp.com', changeOrigin: true }));
-app.use('/api/questions', createProxyMiddleware({ target: 'https://onlxam-q.herokuapp.com', changeOrigin: true }));
-app.use('/api/libraries', createProxyMiddleware({ target: 'https://onlxam-q.herokuapp.com', changeOrigin: true }));
-
-// app.use('/api/auth', createProxyMiddleware({target: 'http://localhost:8889', changeOrigin: true}));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
 
 const swaggerOptions = {
   definition: {
@@ -42,7 +39,7 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: "http://localhost:7777"
+          url: "https://onlxam.herokuapp.com"
         }
       ]
     },
@@ -165,6 +162,37 @@ const swaggerOptions = {
           ]
         }
       },
+      QuestionViewAdmin: {
+        type: "object",
+        properties: {
+          QuestionID: {
+            type: "integer",
+            default: 317
+          },
+          Question: {
+            type: "string",
+            default: "At the same time, the company also won a two-million-dollar ___ for maintenance of the trains for the next seven years."
+          },
+          Type: {
+            type: "string",
+            default: "Multiple Choices"
+          },
+          Level: {
+            type: "string",
+            default: "Medium"
+          }, 
+          LibraryFolderID: {
+            type: "integer",
+            default: 5
+          }
+        }
+      },
+      QuestionsViewAdmin: {
+        type: "object",
+        items: {
+          "$ref": "#/definitions/QuestionViewAdmin"
+        }
+      },
       Question: {
         type: "object",
         properties: {
@@ -264,6 +292,71 @@ const swaggerOptions = {
                 QuestionID: 1
               }
             ]
+          },
+        ]
+      },
+      LibraryViewAdmin: {
+        type: "object",
+        properties: {
+          LibraryFolderID: {
+            type: "integer",
+            default: 317
+          },
+          LibraryFolderName: {
+            type: "string",
+            default: "Viva"
+          },
+          Description: {
+            type: "string",
+            default: "Cannabis dependence with other cannabis-induced disorder"
+          },
+          CreatedDate: {
+            type: "string",
+            default: "2016-09-27T00:00:00.000Z"
+          },   
+          UpdatedDate: {
+            type: "string",
+            default: "2010-12-25T00:00:00.000Z"
+          },        
+          UserID: {
+            type: "integer",
+            default: 501
+          },
+          Avatar: {
+            type: "string",
+            default: "https://source.unsplash.com/random/400x400"
+          },
+          TeacherFullname: {
+            type: "string",
+            default: "Klaus Aymeric"
+          }
+        }
+      },
+      LibrariesViewAdmin: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/LibraryViewAdmin"
+        },
+        example: [
+          {
+            LibraryFolderID: 1,
+            LibraryFolderName: "Viva",
+            Description: "Cannabis dependence with other cannabis-induced disorder",
+            CreatedDate: "2016-09-27T00:00:00.000Z",   
+            UpdatedDate: "2010-12-25T00:00:00.000Z",        
+            UserID: 501,
+            Avatar: "https://source.unsplash.com/random/400x400",
+            TeacherFullname: "Klaus Aymeric"
+          },
+          {
+            LibraryFolderID: 2,
+            LibraryFolderName: "AI",
+            Description: "Cannabis dependence",
+            CreatedDate: "2016-09-27T00:00:00.000Z",   
+            UpdatedDate: "2010-12-25T00:00:00.000Z",        
+            UserID: 501,
+            Avatar: "https://source.unsplash.com/random/400x400",
+            TeacherFullname: "Klaus Aymeric"
           },
         ]
       },
@@ -413,6 +506,53 @@ const swaggerOptions = {
             Avatar: "https://robohash.org/dolorummodinecessitatibus.png?size=400x400&set=set1",
             Authentication: true
           }
+        ]
+      },
+      ClassViewAdmin: {
+        type: "object",
+        properties: {
+          ClassID: {
+            type: "integer",
+            default: 31
+          },
+          ClassName: {
+            type: "string",
+            default: "Class Training"
+          },
+          TeacherID: {
+            type: "integer",
+            default: 408
+          },
+          TeacherFullname: {
+            type: "string",
+            default: "Reggy Flaonier"
+          },
+          TotalStudents: {
+            type: "integer",
+            default: 20
+          }
+        }
+      },
+      ClassesViewAdmin: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/ClassViewAdmin"
+        },
+        example: [
+          {
+            ClassID: 31,
+            ClassName: "Class Training",
+            TeacherID: 406,
+            TeacherFullname: "Reggy Flaonier",
+            TotalStudents: 6
+          },
+          {
+            ClassID: 32,
+            ClassName: "Class Training 2",
+            TeacherID: 406,
+            TeacherFullname: "Reggy Flaonier",
+            TotalStudents: 10
+          },
         ]
       },
       ClassOfTeacher: {
@@ -800,17 +940,36 @@ const swaggerOptions = {
     "./Controllers/class.controller.js", 
     "./Controllers/library.controller.js", 
     "./Controllers/question.controller.js", 
-    "./Controllers/exam.controller.js"
+    "./Controllers/exam.controller.js",
+    "./Controllers/results.controller.js"
   ]
 };
+
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
+app.get("/response-data-do-exam", (req, res) => {
+  res.json(require('./public/do-exam.api.json'));
+})
 
-http.listen(port,  () => { 
+app.get("/body-submitted-exam", (req, res) => {
+  res.json(require('./public/submit-exam.api.json'));
+})
+
+app.get("/results-view-student", (req, res) => {
+  res.json(require('./public/results-student.api.json'));
+})
+
+app.get("/mark-view-student", (req, res) => {
+  res.json(require('./public/mark-student.api.json'));
+})
+
+app.get("/results-teacher-exam-class", (req, res) => {
+  res.json(require('./public/results-teacher.api.json'));
+})
+
+
+app.listen(port,  () => { 
   console.log('Api Gatewaty, listening on port: ' + port);
 });

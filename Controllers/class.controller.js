@@ -1,5 +1,35 @@
 /**
  * @swagger
+ * /api/classes/:
+ *  get:
+ *    tags: 
+ *    - "User Server"
+ *    summary: "All classes by admin (ADMIN)"
+ *    description: Get all classes by admin
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | data"
+ *        required: true
+ *        schema:
+ *          $ref: "#/definitions/ClassesViewAdmin"
+ */
+
+/**
+ * @swagger
  * /api/classes/student:
  *  get:
  *    tags: 
@@ -55,6 +85,45 @@
  *        description: "status: Access | data"
  *        schema:
  *          $ref: "#/definitions/ClassesOfTeacher"
+ */
+
+/**
+ * @swagger
+ * /api/classes/teacher/:ClassID:
+ *  get:
+ *    tags: 
+ *    - "User Server"
+ *    summary: "Get a class of a teacher by ID"
+ *    description: Get a class of a teacher by ID
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    parameters:
+ *    - in: "path"
+ *      name: "ClassID"
+ *      description: "Type ClassID"
+ *      required: true
+ *      schema:
+ *        properties:
+ *          ClassID:
+ *            type: string
+ *            default: "ClassID"
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/ClassOfTeacher"
  */
 
 /**

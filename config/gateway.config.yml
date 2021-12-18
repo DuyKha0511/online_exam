@@ -1,0 +1,69 @@
+http:
+  port: 7777
+admin:
+  port: 7778
+  host: https://onlxam.herokuapp.com
+apiEndpoints:
+  auth:
+    host: https://onlxam.herokuapp.com
+    paths: '/api/*'
+  exam:
+    host: https://onlxam.herokuapp.com
+    paths: '/api/*'
+  question:
+    host: https://onlxam.herokuapp.com
+    paths: '/api/*'
+  user:
+    host: https://onlxam.herokuapp.com
+    paths: '/api/*'
+serviceEndpoints:
+  auth-url:
+    url: 'https://onlxam-a.herokuapp.com/'  
+  exam-url:
+    url: 'https://onlxam-e.herokuapp.com/'
+  question-url:
+    url: 'https://onlxam-q.herokuapp.com/'  
+  user-url:
+    url: 'https://onlxam-u.herokuapp.com/'
+policies:
+  - basic-auth
+  - cors
+  - expression
+  - key-auth
+  - log
+  - oauth2
+  - proxy
+  - rate-limit
+pipelines:
+  auth-service:
+    apiEndpoints:
+      - auth
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: auth-url 
+              changeOrigin: true
+  exam-service:
+    apiEndpoints:
+      - exam
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: exam-url 
+              changeOrigin: true
+  question-service:
+    apiEndpoints:
+      - question
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: question-url 
+              changeOrigin: true
+  user-service:
+    apiEndpoints:
+      - user
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: user-url 
+              changeOrigin: true              

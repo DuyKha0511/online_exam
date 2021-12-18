@@ -1,5 +1,34 @@
 /**
  * @swagger
+ * /api/libraries/all:
+ *  get:
+ *    tags: 
+ *    - "Question Server"
+ *    summary: "All library folders got by ADMIN"
+ *    description: Get All library folders got by ADMIN
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/LibrariesViewAdmin"
+ */
+
+/**
+ * @swagger
  * /api/libraries:
  *  get:
  *    tags: 

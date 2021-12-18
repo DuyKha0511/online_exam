@@ -1,0 +1,123 @@
+{
+    "status": {
+        "Status": "Access",
+        "Code": 200
+    },
+    "data": {
+        "ExamID": 1,
+        "ExamName": "Mandatory explicit complexity",
+        "TimeBegin": "2021-04-12T04:58:44.000Z",
+        "TimeEnd": "2021-07-31T20:12:01.000Z",
+        "Duration": 111,
+        "ClassID": 138,
+        "ClassName": "Class AI",
+        "Questions": [
+            {
+                "QuestionID": 630,
+                "Question": "Ms. Muncy prefers investing in bonds and mutual funds rather than facing the daily ___ of individual stocks.",
+                "Type": "True/False",
+                "Level": "Medium",
+                "LibraryFolderID": 177,
+                "Solution": [
+                    {
+                        "SolutionID": 3134,
+                        "Solution": "fluctuations",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 3135,
+                        "Solution": "installations",
+                        "Correct": null
+                    }
+                ]
+            },
+            {
+                "QuestionID": 1847,
+                "Question": "In order to ___ a wide variety of dining pleasures, we have hired extra kitchen help.",
+                "Type": "Single Choice",
+                "Level": "Easy",
+                "LibraryFolderID": 395,
+                "Solution": [
+                    {
+                        "SolutionID": 6008,
+                        "Solution": "offer",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6009,
+                        "Solution": "give",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6010,
+                        "Solution": "select",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6011,
+                        "Solution": "cater",
+                        "Correct": null
+                    }
+                ]
+            },
+            {
+                "QuestionID": 1871,
+                "Question": "Of the 6 candidates, Ms. Sally Marson seemed the ___ for the position.",
+                "Type": "Single Choice",
+                "Level": "Easy",
+                "LibraryFolderID": 208,
+                "Solution": [
+                    {
+                        "SolutionID": 6104,
+                        "Solution": "qualification",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6105,
+                        "Solution": "qualified",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6106,
+                        "Solution": "more qualified",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6107,
+                        "Solution": "most qualified",
+                        "Correct": null
+                    }
+                ]
+            },
+            {
+                "QuestionID": 2025,
+                "Question": "Super Discounts, Inc., reserves the ___ to limit quantities of certain sale items purchased by each customer.",
+                "Type": "Single Choice",
+                "Level": "Easy",
+                "LibraryFolderID": 491,
+                "Solution": [
+                    {
+                        "SolutionID": 6720,
+                        "Solution": "importance",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6721,
+                        "Solution": "right",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6722,
+                        "Solution": "goal",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 6723,
+                        "Solution": "selection",
+                        "Correct": null
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -81,6 +81,35 @@
 
 /**
  * @swagger
+ * /api/question/:
+ *  get:
+ *    tags: 
+ *    - "Question Server"
+ *    summary: "All questions in the system (ADMIN)"
+ *    description: All questions in the system (ADMIN)
+ *    consumes:
+ *    - "application/json"
+ *    produces:
+ *    - "application/json"
+ *    security:
+ *    - Bearer: []
+ *    responses:
+ *      '601 Error Header':
+ *        description: "status: Error Handle | message: Error Header Authorization"
+ *      '601 Error Token':
+ *        description: "status: Error Handle | message: Error Token"
+ *      '403':
+ *        description: "status: Forbidden | message: Forbidden/Access Denied"
+ *      '401 Unauthorized':
+ *        description: "status: Unauthorized | message: Unauthorized"
+ *      '200':
+ *        description: "status: Access | data"
+ *        schema:
+ *          $ref: "#/definitions/QuestionsViewAdmin"
+ */
+
+/**
+ * @swagger
  * /api/question/:questionID:
  *  get:
  *    tags: 

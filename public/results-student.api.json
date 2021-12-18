@@ -1,0 +1,96 @@
+{
+    "status": {
+        "Status": "Access",
+        "Code": 200
+    },
+    "data": {
+        "ExamID": 280,
+        "ExamName": "Re-engineered well-modulated hierarchy",
+        "Duration": 46,
+        "TakeExamID": 144,
+        "Mark": 10,
+        "Accept": false,
+        "Questions": [
+            {
+                "QuestionID": 1206,
+                "Question": "My boss ___ by the general manager.",
+                "Type": "True/False",
+                "Level": "Medium",
+                "MaxEssay": null,
+                "Answer": "is intimidated",
+                "Solution": [
+                    {
+                        "SolutionID": 4286,
+                        "Solution": "is intimidated",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 4287,
+                        "Solution": "intimidates",
+                        "Correct": null
+                    }
+                ]
+            },
+            {
+                "QuestionID": 1683,
+                "Question": "A new innovative program is ___ to be released, though some system failures happened at the beginning of the inspection.",
+                "Type": "Single Choice",
+                "Level": "Easy",
+                "MaxEssay": null,
+                "Answer": "expected",
+                "Solution": [
+                    {
+                        "SolutionID": 5352,
+                        "Solution": "expecting",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 5353,
+                        "Solution": "expected",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 5354,
+                        "Solution": "expects",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 5355,
+                        "Solution": "expect",
+                        "Correct": null
+                    }
+                ]
+            },
+            {
+                "QuestionID": 2416,
+                "Question": "You can ___the cost of insuring your car if you keep it in a garage.",
+                "Type": "Single Choice",
+                "Level": "Hard",
+                "MaxEssay": null,
+                "Answer": "cut",
+                "Solution": [
+                    {
+                        "SolutionID": 8284,
+                        "Solution": "refine",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 8285,
+                        "Solution": "drop",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 8286,
+                        "Solution": "cut",
+                        "Correct": null
+                    },
+                    {
+                        "SolutionID": 8287,
+                        "Solution": "slice",
+                        "Correct": null
+                    }
+                ]
+            }
+        ]
+    }
+}

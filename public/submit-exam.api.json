@@ -1,0 +1,137 @@
+{
+    "ExamID": 82,
+    "ExamName": "User-centric client-server focus group",
+    "TimeBegin": "2021-04-10T11:04:58.000Z",
+    "TimeEnd": "2021-12-30T17:03:25.000Z",
+    "Duration": 62,
+    "ClassID": 138,
+    "DoingTime": 20,
+    "ClassName": "Class Business Development",
+    "Questions": [
+        {
+            "QuestionID": 570,
+            "Question": "The group was very pleased with the cruise arranged by stellar Travel, with many saying that it was the most ___ of holidays they had ever been on.",
+            "Type": "Multiple Choices",
+            "Level": "Hard",
+            "LibraryFolderID": 295,
+            "Solution": [
+                {
+                    "SolutionID": 2846,
+                    "Solution": "memorable",
+                    "Correct": 1
+                },
+                {
+                    "SolutionID": 2847,
+                    "Solution": "memorize",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 2848,
+                    "Solution": "memory",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 2849,
+                    "Solution": "memorably",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 2850,
+                    "Solution": "memorables",
+                    "Correct": 1
+                }
+            ]
+        },
+        {
+            "QuestionID": 637,
+            "Question": "In an attempt to make its products immediately ___ , the company worked with a top advertising agency on an eye-catching logo.",
+            "Type": "True/False",
+            "Level": "Easy",
+            "LibraryFolderID": 239,
+            "Solution": [
+                {
+                    "SolutionID": 3148,
+                    "Solution": "identifiable",
+                    "Correct": 1
+                },
+                {
+                    "SolutionID": 3149,
+                    "Solution": "identify",
+                    "Correct": 0
+                }
+            ]
+        },
+        {
+            "QuestionID": 2394,
+            "Question": "For the first three months of your employment with the firm you will be under the care of a ___",
+            "Type": "Single Choice",
+            "Level": "Hard",
+            "LibraryFolderID": 177,
+            "Solution": [
+                {
+                    "SolutionID": 8196,
+                    "Solution": "minor",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8197,
+                    "Solution": "monitor",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8198,
+                    "Solution": "mender",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8199,
+                    "Solution": "mentor",
+                    "Correct": 1
+                }
+            ]
+        },
+        {
+            "QuestionID": 2555,
+            "Question": "Now that you've explained the scope and ___ of the market, we are very keen to inject some money into yourproject.",
+            "Type": "Single Choice",
+            "Level": "Easy",
+            "LibraryFolderID": 394,
+            "Solution": [
+                {
+                    "SolutionID": 8840,
+                    "Solution": "measurement",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8841,
+                    "Solution": "distance",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8842,
+                    "Solution": "width",
+                    "Correct": 0
+                },
+                {
+                    "SolutionID": 8843,
+                    "Solution": "dimension",
+                    "Correct": 0
+                }
+            ]
+        },
+        {
+            "QuestionID": 2717,
+            "Question": "Explain about the CNN VGG16 Model",
+            "Type": "Essay",
+            "Level": "Medium",
+            "LibraryFolderID": 509,
+            "Solution": [
+                {
+                    "SolutionID": 9153,
+                    "Solution": "I have no idea!",
+                    "Correct": 1
+                }
+            ]
+        }
+    ]
+}

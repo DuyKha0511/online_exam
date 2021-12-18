@@ -1,0 +1,63 @@
+{
+    "status": {
+        "Status": "Access",
+        "Code": 200
+    },
+    "data": {
+        "ClassID": 31,
+        "ClassName": "Class Research and Development",
+        "ExamID": 2,
+        "ExamName": "Implemented bi-directional parallelism",
+        "TotalSubmissions": 1,
+        "Students": [
+            {
+                "UserID": 19,
+                "Firstname": "Ekaterina",
+                "Lastname": "Hampson",
+                "Feedback": null,
+                "Mark": -1,
+                "Accept": false,
+                "TimeSubmit": null,
+                "Duration": null,
+                "DoingTime": null,
+                "CorrectNumber": null
+            },
+            {
+                "UserID": 90,
+                "Firstname": "Omar",
+                "Lastname": "Beamond",
+                "Feedback": null,
+                "Mark": -1,
+                "Accept": false,
+                "TimeSubmit": null,
+                "Duration": null,
+                "DoingTime": null,
+                "CorrectNumber": null
+            },
+            {
+                "UserID": 110,
+                "Firstname": "Far",
+                "Lastname": "O'Bruen",
+                "Feedback": null,
+                "Mark": -1,
+                "Accept": false,
+                "TimeSubmit": null,
+                "Duration": null,
+                "DoingTime": null,
+                "CorrectNumber": null
+            },
+            {
+                "UserID": 404,
+                "Firstname": "Student",
+                "Lastname": "L",
+                "Feedback": "Tốt",
+                "Mark": 8,
+                "Accept": true,
+                "TimeSubmit": "2021-12-19T00:20:59.027Z",
+                "Duration": null,
+                "DoingTime": 15,
+                "CorrectNumber": 2
+            }
+        ]
+    }
+}
