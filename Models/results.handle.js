@@ -61,5 +61,12 @@ module.exports = {
             WHERE C.UserID = ${UserID} AND C.ClassID = ${ClassID} AND E.ExamID = ${ExamID}
             ORDER BY E.ExamID
         `);
-    } 
+    },
+    confirmResults: function(data) {
+        return ExcuteSQL(`
+            UPDATE tb_TakeExam SET
+            Feedback = N'${data.Feedback}', Mark = ${data.Mark}, Accept = ${data.Accept ? 1 : 0}
+            WHERE ExamID = ${data.ExamID} AND UserID = ${data.UserID}
+        `);
+    }
 }
