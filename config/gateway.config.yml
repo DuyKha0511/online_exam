@@ -1,7 +1,7 @@
 http:
-  port: 7777
+  port: *
 admin:
-  port: 7778
+  port: *
   host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
