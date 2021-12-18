@@ -242,7 +242,13 @@ router.post('/do-exam/submit/', middleware.verifyToken, middleware.checkRole_Vie
             total_nums += correctNums/correctSolution.length;
         });
         examHandle.getEssayMark(req.body.ExamID, essayID).then((essay) => {
-            var mark = (10 - essay.recordset[0].MaxEssay)*total_nums/questionIDs.length;
+            var mark = 0;
+            try {
+                mark = (10 - essay.recordset[0].MaxEssay)*total_nums/questionIDs.length;
+            }
+            catch {
+                mark = 10*total_nums/questionIDs.length;
+            }
             submit_exam.Mark = mark;
             submit_exam.CorrectNumber = total_nums;
             //console.log(submit_exam);
