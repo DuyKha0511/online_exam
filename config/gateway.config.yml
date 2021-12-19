@@ -1,3 +1,5 @@
+http:
+  port: 10000
 https:
   port: 11111
 #   host: https://onlxam.herokuapp.com
