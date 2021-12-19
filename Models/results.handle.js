@@ -68,5 +68,20 @@ module.exports = {
             Feedback = N'${data.Feedback}', Mark = ${data.Mark}, Accept = ${data.Accept ? 1 : 0}
             WHERE ExamID = ${data.ExamID} AND UserID = ${data.UserID}
         `);
+    },
+    viewDoneExamOfStudentByTeacher: function(UserID, ExamID) {
+        return ExcuteSQL(`
+            SELECT U.Firstname, U.Lastname, U.Email, A.*, TE.Feedback, TE.DoingTime, TE.TimeSubmit, TE.CorrectNumber,
+            TE.Mark, TE.Accept, QE.ExamID, E.ExamName, E.Duration,
+            QE.QuestionID, Q.Question, Q.Type, Q.Level, QE.MaxEssay, S.SolutionID, S.Solution, S.Correct
+            FROM tb_Answersheet AS A
+            JOIN tb_QuestionOfExam AS QE ON A.QuestionOfExamID = QE.QuestionOfExamID
+            JOIN tb_TakeExam AS TE ON TE.TakeExamID = A.TakeExamID
+            JOIN tb_Exam AS E ON QE.ExamID = E.ExamID
+            JOIN tb_Question AS Q ON Q.QuestionID = QE.QuestionID
+            JOIN tb_Solution AS S ON S.QuestionID = Q.QuestionID
+            JOIN tb_User AS U ON U.UserID = TE.UserID
+            WHERE A.TakeExamID = (SELECT TakeExamID FROM tb_TakeExam WHERE UserID = ${UserID} AND ExamID = ${ExamID})
+        `)
     }
 }
