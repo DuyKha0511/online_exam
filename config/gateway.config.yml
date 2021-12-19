@@ -1,13 +1,13 @@
 # http:
 #   port: 80
 https:
-  host: localhost
+  hostname: https://onlxam.herokuapp.com
 # admin:
 #   port: 3071
 #   host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
-    host: localhost
+    host: https://onlxam.herokuapp.com
     paths: 
       - '/api/auth/*'
       - '/api/profile/'
