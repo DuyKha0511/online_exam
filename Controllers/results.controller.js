@@ -103,6 +103,83 @@ router.post('/teacher/', middleware.verifyToken, middleware.checkRole_View, (req
     });
 });
 
+router.post('/teacher/:UserID', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    const ExamID = req.body.ExamID;
+    const UserID = req.params.UserID;
+    console.log(`api/results/teacher/ view student ${UserID} results exam ${ExamID} called!!!`);
+    resultsHandle.viewDoneExamOfStudentByTeacher(UserID, ExamID).then((results) => {
+        try {
+            var data = {};
+            data.Firstname = results.recordset[0].Firstname;
+            data.Lastname = results.recordset[0].Lastname;
+            data.Email = results.recordset[0].Email;
+            data.ExamID = results.recordset[0].ExamID;
+            data.ExamName = results.recordset[0].ExamName;
+            data.Duration = results.recordset[0].Duration;
+            data.TakeExamID = results.recordset[0].TakeExamID;
+            data.Feedback = results.recordset[0].Feedback;
+            data.DoingTime = results.recordset[0].DoingTime;
+            data.TimeSubmit = results.recordset[0].TimeSubmit;
+            data.CorrectNumber = results.recordset[0].CorrectNumber;
+            data.Mark = results.recordset[0].Mark;
+            data.Accept = results.recordset[0].Accept;
+            var listQuestions = [];
+            if (results.recordset.length > 0) {
+                var id = results.recordset[0].QuestionID;
+                var question = {
+                    QuestionID: results.recordset[0].QuestionID, 
+                    Question: results.recordset[0].Question, 
+                    Type: results.recordset[0].Type,
+                    Level: results.recordset[0].Level,
+                    MaxEssay: results.recordset[0].MaxEssay,
+                    Answer: results.recordset[0].Answer
+                }
+                var Solution = [{
+                    SolutionID: results.recordset[0].SolutionID, 
+                    Solution: results.recordset[0].Solution, 
+                    Correct: results.recordset[0].Correct
+                }]
+                for (let i = 1; i < results.recordset.length; i++) {
+                    if (results.recordset[i].QuestionID === id) {
+                        Solution.push({
+                            SolutionID: results.recordset[i].SolutionID, 
+                            Solution: results.recordset[i].Solution, 
+                            Correct: results.recordset[i].Correct
+                        })
+                    }
+                    else {
+                        question.Solution = Solution;
+                        listQuestions.push(question);
+                        id = results.recordset[i].QuestionID;
+                        Solution = []
+                        Solution.push({
+                            SolutionID: results.recordset[i].SolutionID, 
+                            Solution: results.recordset[i].Solution, 
+                            Correct: results.recordset[i].Correct
+                        })
+                        question = {
+                            QuestionID: results.recordset[i].QuestionID, 
+                            Question: results.recordset[i].Question, 
+                            Type: results.recordset[i].Type,
+                            Level: results.recordset[i].Level,
+                            MaxEssay: results.recordset[i].MaxEssay,
+                            Answer: results.recordset[i].Answer
+                        }
+                    }
+                }
+                question.Solution = Solution;
+                listQuestions.push(question);
+            };
+            data.Questions = listQuestions;
+            res.json({status: status.Access, data: data});
+        }
+        catch (error) {
+            console.log(error);
+            res.json({status: status.Error, message: "Not submitted"});
+        }
+    });
+});
+
 router.post('/teacher/confirm', middleware.verifyToken, middleware.checkRole_Confirm, (req, res) => {
     console.log(`api/results/teacher/confirm called!!!`);
     resultsHandle.confirmResults(req.body).then(() => {
