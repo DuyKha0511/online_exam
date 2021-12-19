@@ -1,5 +1,5 @@
 http:
-  port: 80
+  port: 800
 https:
   hostname: https://onlxam.herokuapp.com
 # admin:
