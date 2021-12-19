@@ -7,9 +7,9 @@ const express = require('express'),
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
-// gateway()
-//   .load(path.join(__dirname, 'config'))
-//   .run();
+gateway()
+  .load(path.join(__dirname, 'config'))
+  .run();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
