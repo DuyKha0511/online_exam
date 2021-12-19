@@ -1,29 +1,29 @@
 https:
   port: 11111
-  host: https://onlxam.herokuapp.com
+#   host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
-    host: https://onlxam.herokuapp.com
+#     host: https://onlxam.herokuapp.com
     paths: 
       - '/api/auth/*'
       - '/api/profile/'
       - '/api/profile/*'
   exam:
-    host: https://onlxam.herokuapp.com
+#     host: https://onlxam.herokuapp.com
     paths: 
       - '/api/exams/'
       - '/api/exams/*'
       - '/api/results/'
       - '/api/results/*'
   question:
-    host: https://onlxam.herokuapp.com
+#     host: https://onlxam.herokuapp.com
     paths: 
       - '/api/libraries/'
       - '/api/libraries/*'
       - '/api/questions/'
       - '/api/questions/*'
   user:
-    host: https://onlxam.herokuapp.com
+#     host: https://onlxam.herokuapp.com
     paths: 
       - '/api/classes/'
       - '/api/classes/*'
