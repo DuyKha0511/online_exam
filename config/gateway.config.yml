@@ -1,5 +1,6 @@
-# https:
-#   hostname: https://onlxam.herokuapp.com
+https:
+  port: 11111
+  host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
     host: https://onlxam.herokuapp.com
