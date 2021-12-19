@@ -969,7 +969,6 @@ app.get("/results-teacher-exam-class", (req, res) => {
   res.json(require('./public/results-teacher.api.json'));
 })
 
-
-app.listen(port,  () => { 
-  console.log('Api Gatewaty, listening on port: ' + port);
-});
+// app.listen(port,  () => { 
+//   console.log('Api Gatewaty, listening on port: ' + port);
+// });
