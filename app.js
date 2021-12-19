@@ -39,7 +39,7 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: "https://onlxam.herokuapp.com"
+          url: "onlxam.herokuapp.com"
         }
       ]
     },
