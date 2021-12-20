@@ -41,6 +41,12 @@ module.exports = {
     },
     getByEmail: function(email) {
         return ExcuteSQL(`SELECT * FROM  tb_User WHERE Email = '${email}'`);
+    },
+    getByUsernameAndEmail: function(username, email) {
+        return ExcuteSQL(`SELECT * FROM  tb_User WHERE Email = '${email}' AND Username = '${username}'`);
+    },
+    resetPassword: function(username, newPassword) {
+        return ExcuteSQL(`update tb_User set Password = '${newPassword}' where Username = '${username}'`);
     }
 }
 
