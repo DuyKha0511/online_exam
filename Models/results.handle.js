@@ -83,5 +83,10 @@ module.exports = {
             JOIN tb_User AS U ON U.UserID = TE.UserID
             WHERE A.TakeExamID = (SELECT TakeExamID FROM tb_TakeExam WHERE UserID = ${UserID} AND ExamID = ${ExamID})
         `)
+    },
+    getAllMarks: function(UserID) {
+        return ExcuteSQL(`
+            SELECT * FROM tb_TakeExam WHERE UserID = ${UserID}
+        `);
     }
 }
