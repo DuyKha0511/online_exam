@@ -1,9 +1,9 @@
 const profileHandle = require('../Models/profile.handle');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
 const middleware = require('../_Middleware/profile.middleware');
+const bcrypt = require('bcryptjs');
 
 router.get('/', middleware.verifyToken, (req, res) => {
     console.log('api/profile called!!!!');
@@ -31,12 +31,22 @@ router.post('/password', middleware.verifyToken, (req, res) => {
     console.log('api/profile/password called!!!!');
     var OldPassword = req.body.OldPassword;
     var NewPassword = req.body.NewPassword;
-    profileHandle.checkPassword(req.UserID, OldPassword).then(function(result) {
-        if (result.recordset.length == 1) 
-            profileHandle.changePassword(req.UserID, OldPassword, NewPassword).then(function(value) {
-                res.json({status: status.Access})
+    profileHandle.checkPassword(req.UserID).then(function(result) {
+        try {
+            const salt = bcrypt.genSaltSync(10);
+            const hashPassword = bcrypt.hashSync(NewPassword, salt);
+            bcrypt.compare(OldPassword, result.recordset[0].Password).then((isMatch) => {
+                if (isMatch) {
+                    profileHandle.changePassword(req.UserID, hashPassword).then(function() {
+                        res.json({status: status.Access})
+                    });
+                }
+                else res.json({status: status.Error, message: 'Password is incorrect!'})
             });
-        else res.json({status: status.Error, message: 'Password is incorrect!'})
+        }
+        catch {
+            res.json({status: status.Error, message: 'Password is incorrect!'})
+        }
     }) 
 })
 
