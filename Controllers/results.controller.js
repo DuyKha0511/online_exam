@@ -187,4 +187,19 @@ router.post('/teacher/confirm', middleware.verifyToken, middleware.checkRole_Con
     })
 });
 
+router.get('/student/gpa/all', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    console.log(`api/results/gpa/all called!!!`);
+    resultsHandle.getAllMarks(req.UserID).then((marks) => {
+        var count = 0;
+        var total_mark = 0;
+        marks.recordset.map((value) => {
+            if (value.Mark !== -1) {
+                count++;
+                total_mark += value.Mark;
+            }
+        })
+        res.json({status: status.Access, data: {GPA: (total_mark/count).toFixed(1)}})
+    })
+});
+
 module.exports = router;
