@@ -15,10 +15,15 @@ function ExcuteSQL(query) {
         });
 }
 
-// ExcuteSQL('select Avatar from tb_User').then(function(value) {
-//     value.recordset.map((v, index) => {
+// const bcrypt = require('bcryptjs');
+// ExcuteSQL('select * from tb_User').then(function(value) {
+//     const salt = bcrypt.genSaltSync(10);
+//     console.log(value.recordset.length)
+//     value.recordset.map((v, index) => {   
+//         const hashPassword = bcrypt.hashSync('123456', salt);
+//         console.log(v.UserID)
 //         new sql.Request().query(`
-//             update tb_User set Avatar = '${v.Avatar.replace('200x200', '400x400')}' where UserID=${index}
+//             update tb_User set Password = '${hashPassword}' where UserID=${v.UserID}
 //         `)
 //     })
 //     console.log('ok')
@@ -47,14 +52,14 @@ module.exports = {
             where Username='${username}'
         `);
     },
-    checkPassword: function(userID, password) {
+    checkPassword: function(userID) {
         return ExcuteSQL(`
-            select * from tb_User where UserID = ${userID} and Password = ${password}
+            select * from tb_User where UserID = ${userID}
         `);
     },
-    changePassword: function(userID, oldPassword, newPassword) {
+    changePassword: function(userID, newPassword) {
         return ExcuteSQL(`
-            update tb_User set Password = '${newPassword}' where UserID = ${userID} and Password = '${oldPassword}'
+            update tb_User set Password = '${newPassword}' where UserID = ${userID}
         `);
     },
     checkEmail: function(UserID, Email) {
