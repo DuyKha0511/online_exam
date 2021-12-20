@@ -91,6 +91,7 @@ router.post('/signup', (req, res) => {
                                 https://onlxam-a.herokuapp.com/api/auth/verify?token=${username}
                             `,
                             html: `
+                                <img src="../Config/logo.png" alt="Logo" style="width:300px; height:300px">
                                 <h1>Hello ${username}, Welcome to Online Exam<h1>
                                 <p>Thanks for registering on our site.<p>
                                 <p>Please click the link below to verify you account.<p>
@@ -142,6 +143,7 @@ router.post('/reset-password', (req, res) => {
                         Your new password: ${randomPassword}
                     `,
                     html: `
+                        <img src="../Config/logo.png" alt="Logo" style="width:300px; height:300px">
                         <h1>Hello ${Username}, thanks for using Online Exam<h1>
                         <p>Here is your new password. Please keep it yourself<p>
                         <p>Your new password: ${randomPassword}<p>
