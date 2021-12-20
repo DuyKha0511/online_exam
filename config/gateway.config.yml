@@ -5,7 +5,7 @@ http:
 #   host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
-    host: onlxam.herokuapp.com
+    host: localhost
     paths: 
       - '/api/auth/*'
       - '/api/profile/'
