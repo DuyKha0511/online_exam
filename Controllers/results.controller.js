@@ -180,7 +180,7 @@ router.post('/teacher/:UserID', middleware.verifyToken, middleware.checkRole_Vie
     });
 });
 
-router.post('/teacher/confirm', middleware.verifyToken, middleware.checkRole_Confirm, (req, res) => {
+router.post('/teacher/mark/confirm', middleware.verifyToken, middleware.checkRole_Confirm, (req, res) => {
     console.log(`api/results/teacher/confirm called!!!`);
     resultsHandle.confirmResults(req.body).then(() => {
         res.json({status: status.Access})
