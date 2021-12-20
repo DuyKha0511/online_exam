@@ -4,12 +4,13 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const status = require('../Config/status.json');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcryptjs');
 
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "phanduykha2000@gmail.com",
-        pass: "duykha501001"
+        user: "contact.onlxam@gmail.com",
+        pass: "onlxampbl6"
     }
 })
 
@@ -19,17 +20,22 @@ router.post('/login', (req, res) => {
     console.log(`api/auth/login called!!!!`);
     const username = req.body.username;
     const password = req.body.password;
-    authHandle.login(username, password).then(function(user) {
-        if (user.recordsets[0].length) {
-            const accessToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.ACCESS_TOKEN_SECRET, {
-                expiresIn: '1d'
-            });
-            const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
-            refreshTokens.push(refreshToken);
-            user.recordset[0].Password = '';
-            res.json({status: status.Access, accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
+    authHandle.login(username).then(function(user) {
+        try {
+            bcrypt.compare(password, user.recordset[0].Password).then((isMatch) => {
+                if (isMatch) {
+                    const accessToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.ACCESS_TOKEN_SECRET, {
+                        expiresIn: '1d'
+                    });
+                    const refreshToken = jwt.sign({UserID: user.recordset[0].UserID, Username: username}, process.env.REFRESH_TOKEN_SECRET);
+                    refreshTokens.push(refreshToken);
+                    user.recordset[0].Password = '';
+                    res.json({status: status.Access, accessToken: accessToken, refreshToken: refreshToken, data: user.recordset[0]});
+                }
+                else res.json({status: status.Error, message: "Incorrect Username or Password!"});
+            })
         }
-        else {
+        catch {
             res.json({status: status.Error, message: "Incorrect Username or Password!"});
         }
     });
@@ -72,9 +78,11 @@ router.post('/signup', (req, res) => {
                     res.json({status: status.Error, message: "Email is already taken!"});
                 }
                 else {
-                    authHandle.signup(username, password, email).then(result => {
+                    const salt = bcrypt.genSaltSync(10);
+                    const hashPassword = bcrypt.hashSync(password, salt);
+                    authHandle.signup(username, hashPassword, email).then(result => {
                         const verify_mail = {
-                            from: "phanduykha2000@gmail.com",
+                            from: "contact.onlxam@gmail.com",
                             to: `${email}`,
                             subject: "Online Exam - Verify your account",
                             text: `
