@@ -3,16 +3,31 @@ const gateway = require('express-gateway');
 const express = require('express'),
   app = express(),
   bodyParser = require("body-parser"),
-  port = process.env.PORT || 7776;
+  port = process.env.PORT || 7777;
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const morgan = require("morgan");
 
-gateway()
-  .load(path.join(__dirname, 'config'))
-  .run();
+// gateway()
+//   .load(path.join(__dirname, 'config'))
+//   .run();
+
+
+app.use(morgan('combined'));
+app.use('/api/auth', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
+app.use('/api/profile', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
+app.use('/api/classes', createProxyMiddleware({ target: 'https://onlxam-u.herokuapp.com', changeOrigin: true }));
+app.use('/api/users', createProxyMiddleware({ target: 'https://onlxam-u.herokuapp.com', changeOrigin: true }));
+app.use('/api/questions', createProxyMiddleware({ target: 'https://onlxam-q.herokuapp.com', changeOrigin: true }));
+app.use('/api/libraries', createProxyMiddleware({ target: 'https://onlxam-q.herokuapp.com', changeOrigin: true }));
+app.use('/api/exams', createProxyMiddleware({ target: 'https://onlxam-e.herokuapp.com', changeOrigin: true }));
+app.use('/api/results', createProxyMiddleware({ target: 'https://onlxam-e.herokuapp.com', changeOrigin: true }));
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
 
 //enable cors
 app.use(function(req, res, next) {
@@ -39,11 +54,11 @@ const swaggerOptions = {
       },
       servers: [
         {
-          url: "onlxam.herokuapp.com"
+          url: "https://onlxam.herokuapp.com"
         }
       ]
     },
-    host: "onlxam.herokuapp.com",
+    host: "https://onlxam.herokuapp.com",
     tags: [
       {
         "name": "Auth Server",
@@ -944,7 +959,6 @@ const swaggerOptions = {
     "./Controllers/results.controller.js"
   ]
 };
-
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
