@@ -118,4 +118,44 @@ router.get('/verify', (req, res) => {
     })
 })
 
+router.post('/reset-password', (req, res) => {
+    console.log(`api/auth/reset-password called!!!!`);
+    const Username = req.body.Username;
+    const Email = req.body.Email;
+    authHandle.getByUsernameAndEmail(Username, Email).then((value) => {
+        if (value.recordset.length === 0) {
+            res.json({status: status.Error, message: "Invalid Username or Email!"});
+        }
+        else {
+            var randomPassword = (Math.random()*10 + 1).toString(36);
+            randomPassword = randomPassword.replace('.', '').substring(0, 8);
+            const salt = bcrypt.genSaltSync(10);
+            const hashPassword = bcrypt.hashSync(randomPassword, salt);
+            authHandle.resetPassword(Username, hashPassword).then((response) => {
+                const verify_mail = {
+                    from: "contact.onlxam@gmail.com",
+                    to: `${Email}`,
+                    subject: "Online Exam - Reset your new password",
+                    text: `
+                        Hello ${Username}, thanks for using Online Exam.
+                        Here is your new password. Please keep it yourself
+                        Your new password: ${randomPassword}
+                    `,
+                    html: `
+                        <h1>Hello ${Username}, thanks for using Online Exam<h1>
+                        <p>Here is your new password. Please keep it yourself<p>
+                        <p>Your new password: ${randomPassword}<p>
+                    `
+                }
+                transporter.sendMail(verify_mail, (err, info) => {
+                    if (err) {
+                        console.error(err)
+                    }
+                    else res.json({status: status.Access})
+                })
+            })
+        }
+    });
+});
+
 module.exports = router;
