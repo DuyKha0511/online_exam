@@ -51,7 +51,7 @@ module.exports = {
             JOIN tb_User AS U ON U.UserID = C.UserID
             JOIN tb_ExamOfClass AS EC ON EC.ClassID = C.ClassID
             JOIN tb_Exam AS E ON E.ExamID = EC.ExamID
-            JOIN tb_TakeExam AS TE ON TE.ExamID = E.ExamID
+            JOIN tb_TakeExam AS TE ON TE.ExamID = E.ExamID AND TE.UserID = CM.UserID
             JOIN 
             (SELECT ExamID, COUNT(*) AS TotalQuestions FROM tb_QuestionOfExam
             GROUP BY ExamID) AS Q
