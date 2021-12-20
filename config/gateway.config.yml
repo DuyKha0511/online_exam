@@ -1,7 +1,7 @@
 http:
-  port: 10000
-https:
-  port: 11111
+  port: 8080
+# https:
+#   port: 11111
 #   host: https://onlxam.herokuapp.com
 apiEndpoints:
   auth:
