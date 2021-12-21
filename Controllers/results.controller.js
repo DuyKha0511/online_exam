@@ -189,17 +189,25 @@ router.post('/teacher/mark/confirm', middleware.verifyToken, middleware.checkRol
 
 router.get('/student/gpa/all', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     console.log(`api/results/gpa/all called!!!`);
-    resultsHandle.getAllMarks(req.UserID).then((marks) => {
-        var count = 0;
-        var total_mark = 0;
-        marks.recordset.map((value) => {
-            if (value.Mark !== -1) {
-                count++;
-                total_mark += value.Mark;
+    resultsHandle.geGPAsOfAllStudent().then((GPAs) => {
+        var rank = 0;
+        var gpa = 0;
+        for (var i = 0; i < GPAs.recordset.length; i++) {
+            if (GPAs.recordset[i].UserID === req.UserID) {
+                if (GPAs.recordset[i].GPA !== -1) {
+                    rank = i + 1;
+                    gpa = GPAs.recordset[i].GPA;
+                }
+                else {
+                    gpa = 0;
+                    rank = 999;
+                }
+                break;
             }
-        })
-        res.json({status: status.Access, data: {GPA: (total_mark/count).toFixed(1)}})
-    })
+        };
+        if (rank === 0 && gpa === 0) res.json({ status: status.Error, message: 'This student had not taken any exam.' });
+        else res.json({ status: status.Access, data: {GPA: gpa, Rank: rank}});
+    });
 });
 
 module.exports = router;
