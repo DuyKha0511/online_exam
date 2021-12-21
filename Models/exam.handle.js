@@ -92,27 +92,9 @@ module.exports = {
         query = `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID} AND UserID IN \n`
         +   `(SELECT UserID FROM tb_ClassMember WHERE ClassID = ${ClassID})\n`
         +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID} AND ClassID = ${ClassID}`
-        // return ExcuteSQL(
-        //         `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`
-        //     +   `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
-        //     +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
-        //     +   `DELETE FROM tb_Exam WHERE ExamID = ${ExamID}\n`
-        // );
         return ExcuteSQL(query);
     },
     updateExam: function(ExamID, exam) {
-        // var query = `DELETE FROM tb_QuestionOfExam WHERE ExamID = ${ExamID}\n`
-        // +   `DELETE FROM tb_TakeExam WHERE ExamID = ${ExamID}\n`
-        // +   `DELETE FROM tb_ExamOfClass WHERE ExamID = ${ExamID}\n`;
-        // exam.ClassID.map((value) => {
-        //     query += `INSERT INTO tb_ExamOfClass VALUES (${value}, ${ExamID})\n`
-        // })
-        // exam.QuestionID.map((value) => {
-        //     query += `INSERT INTO tb_QuestionOfExam VALUES (${ExamID}, ${value}, NULL, (CASE WHEN [dbo].CheckIfEssayQuestion(${value}) = 1 THEN ${exam.MaxEssay} ELSE NULL END))\n`
-        // });
-        // query += `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
-        // +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
-        // +   `WHERE ExamID = ${ExamID}`;
         var query = `UPDATE tb_Exam SET ExamName = N'${exam.ExamName}',\n`
         +   `TimeBegin = '${exam.TimeBegin}', TimeEnd = '${exam.TimeEnd}', Duration =  ${exam.Duration}\n`
         +   `WHERE ExamID = ${ExamID}`;
@@ -160,5 +142,28 @@ module.exports = {
         return ExcuteSQL(`
             SELECT MaxEssay FROM tb_QuestionOfExam WHERE ExamID = ${ExamID} AND QuestionID = ${QuestionID}
         `)
+    },
+    getNewestExam: function(UserID, RoleID) {
+        if (RoleID === 3) {
+            return ExcuteSQL(`
+                SELECT TOP(3) EC.ClassID, C.ClassName, E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration 
+                FROM tb_ExamOfClass AS EC
+                JOIN tb_Exam AS E ON EC.ExamID = E.ExamID
+                JOIN tb_Class AS C ON C.ClassID = EC.ClassID
+                WHERE EC.ClassID IN 
+                (SELECT ClassID FROM tb_ClassMember WHERE UserID = ${UserID})
+                ORDER BY TimeBegin DESC
+            `);
+        }
+        else 
+            return ExcuteSQL(`
+                SELECT TOP(3) EC.ClassID, C.ClassName, E.ExamID, E.ExamName, E.TimeBegin, E.TimeEnd, E.Duration 
+                FROM tb_ExamOfClass AS EC
+                JOIN tb_Exam AS E ON EC.ExamID = E.ExamID
+                JOIN tb_Class AS C ON C.ClassID = EC.ClassID
+                WHERE EC.ClassID IN 
+                (SELECT ClassID FROM tb_Class WHERE UserID = ${UserID})
+                ORDER BY TimeBegin DESC
+            `);
     }
 }
