@@ -98,7 +98,7 @@ module.exports = {
     },
     getGPAsOfAllStudentsOfTeacher: function(TeacherID) {
         return ExcuteSQL(`
-            SELECT U.UserID, U.Firstname, U.Lastname, U.Email, G.GPA, G.TotalDoingTime FROM tb_User AS U
+            SELECT TOP(5) U.UserID, U.Firstname, U.Lastname, U.Email, G.GPA, G.TotalDoingTime FROM tb_User AS U
             JOIN   
             (SELECT UserID, ROUND((SUM(Mark)/ COUNT(UserID)), 1) AS GPA, SUM(DoingTime) AS TotalDoingTime FROM tb_TakeExam 
             WHERE ExamID IN 
