@@ -95,5 +95,17 @@ module.exports = {
             GROUP BY UserID 
             ORDER BY GPA DESC, TotalDoingTime ASC
         `);
+    },
+    getGPAsOfAllStudentsOfTeacher: function(TeacherID) {
+        return ExcuteSQL(`
+            SELECT U.UserID, U.Firstname, U.Lastname, U.Email, G.GPA, G.TotalDoingTime FROM tb_User AS U
+            JOIN   
+            (SELECT UserID, ROUND((SUM(Mark)/ COUNT(UserID)), 1) AS GPA, SUM(DoingTime) AS TotalDoingTime FROM tb_TakeExam 
+            WHERE ExamID IN 
+            (SELECT DISTINCT ExamID FROM tb_ExamOfClass WHERE ClassID IN  
+            (SELECT ClassID FROM tb_Class WHERE UserID = ${TeacherID}))
+            GROUP BY UserID) AS G ON G.UserID = U.UserID
+            ORDER BY G.GPA DESC, G.TotalDoingTime ASC 
+        `);
     }
 }
