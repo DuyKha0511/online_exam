@@ -251,9 +251,7 @@ router.post('/do-exam/submit/', middleware.verifyToken, middleware.checkRole_Vie
             }
             submit_exam.Mark = mark;
             submit_exam.CorrectNumber = total_nums;
-            console.log(total_nums);
-            console.log(questionIDs.length);
-            console.log(submit_exam);
+            //console.log(submit_exam);
             examHandle.submitExam(submit_exam).then(() => {
                 delete submit_exam.Solutions;
                 submit_exam.TimeSubmit = new Date(new Date().getTime() + 7*3600000).toUTCString();
@@ -261,6 +259,13 @@ router.post('/do-exam/submit/', middleware.verifyToken, middleware.checkRole_Vie
             })
         })
     });
+});
+
+router.post('/e/dashboard/', middleware.verifyToken, middleware.checkRole_ViewInfo, (req, res) => {
+    console.log(`api/exams/e/dashboard called!!!`);
+    examHandle.getNewestExam(req.UserID, req.body.RoleID).then((exams) => {
+        res.json({status: status.Access, data: exams.recordset});
+    })
 });
 
 module.exports = router;
