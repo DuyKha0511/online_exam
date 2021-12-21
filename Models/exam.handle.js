@@ -165,5 +165,13 @@ module.exports = {
                 (SELECT ClassID FROM tb_Class WHERE UserID = ${UserID})
                 ORDER BY TimeBegin DESC
             `);
+    },
+    getTotalByTeacher: function(UserID) {
+        return ExcuteSQL(`
+            SELECT 
+            (SELECT COUNT(*) FROM tb_Class WHERE UserID = ${UserID}) AS TotalClasses,
+            (SELECT COUNT(*) FROM tb_ExamOfClass WHERE ClassID IN (SELECT COUNT(*) FROM tb_Class WHERE UserID = ${UserID})) AS TotalAssignments,
+            (SELECT COUNT(*) FROM tb_ClassMember WHERE ClassID IN (SELECT COUNT(*) FROM tb_Class WHERE UserID = ${UserID})) AS TotalStudents
+        `)
     }
 }
