@@ -268,4 +268,30 @@ router.post('/e/dashboard/', middleware.verifyToken, middleware.checkRole_ViewIn
     })
 });
 
+router.post('/t/dashboard/', middleware.verifyToken, middleware.checkRole_ViewInfo, (req, res) => {
+    console.log(`api/exams/t/dashboard called!!!`);
+    if (req.body.RoleID === 3) {
+        examHandle.getExamsOfAStudent(req.UserID).then((exams) => {
+            var notdone = 0;
+            try {
+                notdone = exams.recordset.filter(e => e.DoingFlag === 'NotDone').length;
+                res.json({status: status.Access, data: {DoneNumber: exams.recordset.length - notdone, NotDoneNumber: notdone}})
+            }
+            catch {
+                res.json({status: status.Access, data: {DoneNumber: 0, NotDoneNumber: 0}})
+            }
+        });
+    }
+    else {
+        examHandle.getTotalByTeacher(req.UserID).then((totals) => {
+            try {
+                res.json({status: status.Access, data: totals.recordset[0]})
+            }
+            catch {
+                res.json({status: status.Access, data: {TotalClasses: 0, TotalAssignments: 0, TotalStudents: 0}})
+            }
+        })
+    }
+});
+
 module.exports = router;
