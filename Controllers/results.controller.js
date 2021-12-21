@@ -187,6 +187,17 @@ router.post('/teacher/mark/confirm', middleware.verifyToken, middleware.checkRol
     })
 });
 
+router.get('/teacher/gpa/all', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
+    console.log(`api/results/teacher/gpa/all called!!!`);
+    resultsHandle.getGPAsOfAllStudentsOfTeacher(req.UserID).then((GPAs) => {
+        GPAs.recordset.map((value, index) => {
+            if (value.GPA !== -1) value.Rank = index + 1;
+            else value.Rank = 999;
+        });
+        res.json({status: status.Access, data: GPAs.recordset});
+    })
+});
+
 router.get('/student/gpa/all', middleware.verifyToken, middleware.checkRole_View, (req, res) => {
     console.log(`api/results/gpa/all called!!!`);
     resultsHandle.geGPAsOfAllStudent().then((GPAs) => {
