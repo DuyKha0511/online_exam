@@ -88,5 +88,12 @@ module.exports = {
         return ExcuteSQL(`
             SELECT * FROM tb_TakeExam WHERE UserID = ${UserID}
         `);
+    },
+    geGPAsOfAllStudent: function() {
+        return ExcuteSQL(`
+            SELECT UserID, ROUND((SUM(Mark)/ COUNT(UserID)), 1) AS GPA, SUM(DoingTime) AS TotalDoingTime FROM tb_TakeExam 
+            GROUP BY UserID 
+            ORDER BY GPA DESC, TotalDoingTime ASC
+        `);
     }
 }
