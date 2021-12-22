@@ -1,5 +1,5 @@
 const path = require('path');
-// const gateway = require('express-gateway');
+const gateway = require('express-gateway');
 const express = require('express'),
   app = express(),
   bodyParser = require("body-parser"),
@@ -17,6 +17,7 @@ const morgan = require("morgan");
 app.use(morgan('combined'));
 app.use('/api/auth', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
 app.use('/api/profile', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
+app.use('/api/role', createProxyMiddleware({ target: 'https://onlxam-a.herokuapp.com', changeOrigin: true }));
 app.use('/api/classes', createProxyMiddleware({ target: 'https://onlxam-u.herokuapp.com', changeOrigin: true }));
 app.use('/api/users', createProxyMiddleware({ target: 'https://onlxam-u.herokuapp.com', changeOrigin: true }));
 app.use('/api/questions', createProxyMiddleware({ target: 'https://onlxam-q.herokuapp.com', changeOrigin: true }));
@@ -91,6 +92,93 @@ const swaggerOptions = {
       Bearer: []
     },
     definitions: {
+      Function: {
+        type: "object",
+        properties: {
+          FunctionID: {
+            type: "integer",
+            default: 1
+          },
+          ActionName: {
+            type: "string",
+            default: "View info of a student"
+          },
+          Type: {
+            type: "integer",
+            default: 1
+          },
+          Code: {
+            type: "string",
+            default: "VIEW"
+          },
+          GroupFunctionID: {
+            type: "integer",
+            default: 1
+          }
+        }
+      },
+      FunctionsOfAGroup: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/Function"
+        },
+        example: [
+          {
+            FunctionID: 1,
+            ActionName: "View info of a student",
+            Type: 1,
+            Code: "VIEW",
+            GroupFunctionID: 1
+          },
+          {
+            FunctionID: 2,
+            ActionName: "Create a new student infomation",
+            Type: 2,
+            Code: "CREATE",
+            GroupFunctionID: 1
+          },
+          {
+            FunctionID: 3,
+            ActionName: "Edit info of a student",
+            Type: 3,
+            Code: "EDIT",
+            GroupFunctionID: 1
+          }
+        ]
+      },
+      GroupFunction: {
+        type: "object",
+        properties: {
+          GroupFunctionID: {
+            type: "integer",
+            default: 1
+          },
+          GroupFunctionName: {
+            type: "string",
+            default: "Student Management"
+          }
+        }
+      },
+      GroupFunctions: {
+        type: "array",
+        items: {
+          "$ref": "#/definitions/GroupFunction"
+        },
+        example: [
+          {
+            GroupFunctionID: 1,
+            GroupFunctionName: "Student Management"
+          },
+          {
+            GroupFunctionID: 2,
+            GroupFunctionName: "Teacher Management"
+          },
+          {
+            GroupFunctionID: 3,
+            GroupFunctionName: "Account Management"
+          }
+        ]
+      },
       Solution: {
         type: "object",
         properties: {
@@ -952,6 +1040,7 @@ const swaggerOptions = {
   apis: [
     "./Controllers/auth.controller.js", 
     "./Controllers/profile.controller.js", 
+    "./Controllers/role.controller.js",
     "./Controllers/class.controller.js", 
     "./Controllers/library.controller.js", 
     "./Controllers/question.controller.js", 
