@@ -30,7 +30,7 @@ router.post('/', middleware.verifyToken, middleware.checkRole_All, (req, res) =>
     roleHandle.getRoleByRoleName(RoleName).then((role) => {
         if (role.recordset.length === 0) {
             roleHandle.createNewRole(RoleName, Permissions).then((newRole) => {
-                res.json({status: status.Error, data: {RoleID: newRole.recordset[0]}})
+                res.json({status: status.Error, data: newRole.recordset[0]})
             })
         }
         else {
