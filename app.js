@@ -59,7 +59,7 @@ const swaggerOptions = {
         }
       ]
     },
-    host: "https://onlxam.herokuapp.com",
+    host: "onlxam.herokuapp.com",
     tags: [
       {
         "name": "Auth Server",
