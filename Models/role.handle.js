@@ -52,7 +52,7 @@ module.exports = {
         query += `INSERT INTO tb_Permission (RoleID, GroupFunctionID, Enable)\n`
         + `SELECT @RoleID, GroupFunctionID, 0 FROM tb_GroupFunction WHERE\n`
         + `GroupFunctionID NOT IN ${listGFids}\n`
-        + `SELECT @RoleID`;
+        + `SELECT @RoleID as RoleID`;
         return ExcuteSQL(query);
     },
     getRoleByRoleName: function(RoleName) {
