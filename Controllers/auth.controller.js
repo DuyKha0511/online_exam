@@ -68,6 +68,7 @@ router.post('/signup', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const email = req.body.email;
+    const roleID = req.body.RoleID ? req.body.RoleID : 3;
     authHandle.getByUsername(username).then((value) => {
         if (value.recordset.length === 1) {
             res.json({status: status.Error, message: "Username Existed!"});
@@ -80,7 +81,7 @@ router.post('/signup', (req, res) => {
                 else {
                     const salt = bcrypt.genSaltSync(10);
                     const hashPassword = bcrypt.hashSync(password, salt);
-                    authHandle.signup(username, hashPassword, email).then(result => {
+                    authHandle.signup(username, hashPassword, email, roleID).then(result => {
                         const verify_mail = {
                             from: "contact.onlxam@gmail.com",
                             to: `${email}`,
