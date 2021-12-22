@@ -70,6 +70,7 @@ app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/api/auth', require('./Controllers/auth.controller'));
 app.use('/api/profile', require('./Controllers/profile.controller'));
+app.use('/api/role', require('./Controllers/role.controller'));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
