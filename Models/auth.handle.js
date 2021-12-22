@@ -24,13 +24,13 @@ module.exports = {
             where U.Username='${username}'
         `);
     },
-    signup: function(username, password, email) {
+    signup: function(username, password, email, roleID) {
         return ExcuteSQL(`
             insert into tb_User (Username, Password, Email, Authentication) 
             values ('${username}', '${password}', '${email}', 0)
             
             insert into tb_RoleOfUser values
-            ((select UserID from tb_User where Username = '${username}'), 3)
+            ((select UserID from tb_User where Username = '${username}'), ${roleID})
         `);
     },
     verify: function(username) {
