@@ -21,7 +21,14 @@ router.get('/group-function/:GFid', middleware.verifyToken, middleware.checkRole
             res.json({status: status.Error, message: "Group Function not existed!"});
         }
     });
-})
+});
+
+router.get('/', middleware.verifyToken, middleware.checkRole_All, (req, res) => {
+    console.log(`api/role/ create role called!!!`);
+    roleHandle.getAll().then((results) => {
+        res.json({status: status.Access, data: results.recordset});
+    });
+});
 
 router.post('/', middleware.verifyToken, middleware.checkRole_All, (req, res) => {
     console.log(`api/role/ create role called!!!`);
