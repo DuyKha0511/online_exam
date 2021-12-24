@@ -16,6 +16,9 @@ function ExcuteSQL(query) {
 }
 
 module.exports = {
+    getAll: function() {
+        return ExcuteSQL(`select * from tb_Role`);
+    },
     getRole: function(UserID, groupFunctionID) {
         return ExcuteSQL(`
             SELECT P.*, R.RoleName FROM tb_Permission AS P
