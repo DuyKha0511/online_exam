@@ -47,7 +47,7 @@ router.post('/', middleware.verifyToken, middleware.checkRole_All, (req, res) =>
 })
 
 router.get('/view/:RoleID', middleware.verifyToken, middleware.checkRole_All, (req, res) => {
-    console.log(`api/role/view//${RoleID} called!!!`);
+    console.log(`api/role/view/ called!!!`);
     roleHandle.getPermission(req.params.RoleID).then((GFs) => {
         res.json({status: status.Access, data: GFs.recordset});
     });
