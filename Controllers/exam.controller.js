@@ -133,57 +133,62 @@ router.get('/do-exam/:ExamID', middleware.verifyToken, middleware.checkRole_View
     examHandle.getExamByID(ExamID).then((exam) => {
         var data = exam.recordset[0];
         examHandle.getClassByExamAndUser(ExamID, req.UserID).then((classResults) => {
-            data.ClassID = classResults.recordset[0].ClassID;
-            data.ClassName = classResults.recordset[0].ClassName;
-            examHandle.getQuestionsOfExam(ExamID).then((questions) => {
-                var listQuestions = []
-                if (questions.recordset.length > 0) {
-                    var id = questions.recordset[0].QuestionID;
-                    var question = {
-                        QuestionID: questions.recordset[0].QuestionID, 
-                        Question: questions.recordset[0].Question, 
-                        Type: questions.recordset[0].Type,
-                        Level: questions.recordset[0].Level, 
-                        LibraryFolderID: questions.recordset[0].LibraryFolderID,
-                    }
-                    var Solution = [{
-                        SolutionID: questions.recordset[0].SolutionID, 
-                        Solution: questions.recordset[0].Solution, 
-                        Correct: null
-                    }]
-                    for (let i = 1; i < questions.recordset.length; i++) {
-                        if (questions.recordset[i].QuestionID === id) {
-                            Solution.push({
-                                SolutionID: questions.recordset[i].SolutionID, 
-                                Solution: questions.recordset[i].Solution, 
-                                Correct: null
-                            })
+            try {
+                data.ClassID = classResults.recordset[0].ClassID;
+                data.ClassName = classResults.recordset[0].ClassName;
+                examHandle.getQuestionsOfExam(ExamID).then((questions) => {
+                    var listQuestions = []
+                    if (questions.recordset.length > 0) {
+                        var id = questions.recordset[0].QuestionID;
+                        var question = {
+                            QuestionID: questions.recordset[0].QuestionID, 
+                            Question: questions.recordset[0].Question, 
+                            Type: questions.recordset[0].Type,
+                            Level: questions.recordset[0].Level, 
+                            LibraryFolderID: questions.recordset[0].LibraryFolderID,
                         }
-                        else {
-                            question.Solution = Solution;
-                            listQuestions.push(question);
-                            id = questions.recordset[i].QuestionID;
-                            Solution = []
-                            Solution.push({
-                                SolutionID: questions.recordset[i].SolutionID, 
-                                Solution: questions.recordset[i].Solution, 
-                                Correct: null
-                            })
-                            question = {
-                                QuestionID: questions.recordset[i].QuestionID, 
-                                Question: questions.recordset[i].Question, 
-                                Type: questions.recordset[i].Type,
-                                Level: questions.recordset[i].Level, 
-                                LibraryFolderID: questions.recordset[i].LibraryFolderID,
+                        var Solution = [{
+                            SolutionID: questions.recordset[0].SolutionID, 
+                            Solution: questions.recordset[0].Solution, 
+                            Correct: null
+                        }]
+                        for (let i = 1; i < questions.recordset.length; i++) {
+                            if (questions.recordset[i].QuestionID === id) {
+                                Solution.push({
+                                    SolutionID: questions.recordset[i].SolutionID, 
+                                    Solution: questions.recordset[i].Solution, 
+                                    Correct: null
+                                })
+                            }
+                            else {
+                                question.Solution = Solution;
+                                listQuestions.push(question);
+                                id = questions.recordset[i].QuestionID;
+                                Solution = []
+                                Solution.push({
+                                    SolutionID: questions.recordset[i].SolutionID, 
+                                    Solution: questions.recordset[i].Solution, 
+                                    Correct: null
+                                })
+                                question = {
+                                    QuestionID: questions.recordset[i].QuestionID, 
+                                    Question: questions.recordset[i].Question, 
+                                    Type: questions.recordset[i].Type,
+                                    Level: questions.recordset[i].Level, 
+                                    LibraryFolderID: questions.recordset[i].LibraryFolderID,
+                                }
                             }
                         }
+                        question.Solution = Solution;
+                        listQuestions.push(question);
                     }
-                    question.Solution = Solution;
-                    listQuestions.push(question);
-                }
-                data.Questions = listQuestions;
-                res.json({status: status.Access, data: data});
-            });
+                    data.Questions = listQuestions;
+                    res.json({status: status.Access, data: data});
+                });
+            }
+            catch {
+                res.json({status: status.Error, message: "Exam had been done!"});
+            }
         });
     });
 });
