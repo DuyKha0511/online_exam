@@ -102,11 +102,14 @@ module.exports = {
     },
     getClassByExamAndUser: function(ExamID, UserID) {
         return ExcuteSQL(`
-            SELECT ClassID, ClassName FROM tb_Class WHERE ClassID =
-            (SELECT ClassID FROM tb_ClassMember
-            WHERE UserID = ${UserID}
-            INTERSECT 
-            SELECT ClassID FROM tb_ExamOfClass WHERE ExamID = ${ExamID})
+            DECLARE @Mark INT 
+            SELECT @Mark = Mark FROM tb_TakeExam WHERE UserID = 404 AND ExamID = 1527
+            IF @Mark = -1
+                SELECT ClassID, ClassName FROM tb_Class WHERE ClassID =
+                (SELECT ClassID FROM tb_ClassMember
+                WHERE UserID = ${UserID}
+                INTERSECT 
+                SELECT ClassID FROM tb_ExamOfClass WHERE ExamID = ${ExamID})
         `);
     },
     getQuestionsOfExamID: function(ExamID) {
