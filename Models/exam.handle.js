@@ -103,7 +103,7 @@ module.exports = {
     getClassByExamAndUser: function(ExamID, UserID) {
         return ExcuteSQL(`
             DECLARE @Mark INT 
-            SELECT @Mark = Mark FROM tb_TakeExam WHERE UserID = 404 AND ExamID = 1527
+            SELECT @Mark = Mark FROM tb_TakeExam WHERE UserID = ${UserID} AND ExamID = ${ExamID}
             IF @Mark = -1
                 SELECT ClassID, ClassName FROM tb_Class WHERE ClassID =
                 (SELECT ClassID FROM tb_ClassMember
