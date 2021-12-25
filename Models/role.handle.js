@@ -60,5 +60,8 @@ module.exports = {
     },
     getRoleByRoleName: function(RoleName) {
         return ExcuteSQL(`select * from tb_Role where RoleName = N'${RoleName}'`);
+    },
+    getPermission: function(RoleID) {
+        return ExcuteSQL(`select * from tb_Permission where RoleID = ${RoleID}`);
     }
 }
